@@ -1,0 +1,6 @@
+com\ftn\sbnz\model\events\Item.class
+com\ftn\sbnz\model\events\Item$Category.class
+com\ftn\sbnz\model\events\HeartAttackEvent.class
+com\ftn\sbnz\model\events\HeartBeatEvent.class
+com\ftn\sbnz\model\events\TransactionEvent.class
+com\ftn\sbnz\model\ModelApplication.class
