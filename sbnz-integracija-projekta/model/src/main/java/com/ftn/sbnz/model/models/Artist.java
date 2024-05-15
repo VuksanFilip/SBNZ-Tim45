@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,6 +17,7 @@ import java.util.List;
 public class Artist {
     @Id
     private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String username;
     private String password;
     private Genre genre;
