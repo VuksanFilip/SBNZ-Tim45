@@ -15,21 +15,45 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
+@Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String username;
+
+    @Column
     private String password;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(
+            name = "listened_songs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> listenedSongs;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(
+            name = "rated_songs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> ratedSongs;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_songs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> favoriteSongs;
-    @OneToOne
+
+
+    @OneToOne(mappedBy = "user")
     private UserPreference preference;
-//    private List<Recommodation> pastRecommodations;
+
+    @OneToMany(mappedBy = "ratedBy", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
 
 }
-

@@ -15,15 +15,27 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
+@Table(name = "albums")
 public class Album {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private Artist artist;
+
+    @Column
     private String title;
-    @OneToMany
-    private List<Song> songs;
+
+    @Column
     private LocalDateTime releaseDate;
+
+    @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
+
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
+    private List<Song> songs;
+
 }

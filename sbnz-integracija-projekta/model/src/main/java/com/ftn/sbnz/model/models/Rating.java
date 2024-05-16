@@ -12,12 +12,25 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
+@Table(name = "ratings")
 public class Rating {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "rated_by")
+    private User ratedBy;
+
+    @ManyToOne
+    @JoinColumn(name = "song_id")
+    private Song song;
+
+    @Column
     private int rating;
+
+    @Column
     private String comment;
+
 }

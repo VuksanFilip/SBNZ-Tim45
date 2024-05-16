@@ -15,19 +15,48 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
+@Table(name = "songs")
 public class Song {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id")
     private Artist artist;
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id")
     private Album album;
+
+    @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @Column
     private LocalDateTime releaseDate;
-    @OneToMany
+
+    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-    private int favoritesCount;
+
+    // users
+    @ManyToMany(mappedBy = "listenedSongs")
+    private List<User> listeners;
+
+    @ManyToMany(mappedBy = "ratedSongs")
+    private List<User> raters;
+
+    @ManyToMany(mappedBy = "favoriteSongs")
+    private List<User> favoritedBy;
+
+    // counts
+    @Column
     private int listensCount;
+
+    @Column
+    private int favoritesCount;
+
 }

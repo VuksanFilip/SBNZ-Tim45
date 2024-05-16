@@ -14,15 +14,26 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
+@Table(name = "artists")
 public class Artist {
+
     @Id
-    private Long id;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private Genre genre;
-    @OneToMany
+
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Album> albums;
-    @OneToMany
+
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
     private List<Song> songs;
+
 }

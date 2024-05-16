@@ -12,12 +12,21 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
+@Table(name = "user_preferences")
 public class UserPreference {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
-//    private String explicitPreferences;
-//    private String implicitPreferences;
+
+    @Column
+    private String explicitPreferences;
+
+    @Column
+    private String implicitPreferences;
+
 }
