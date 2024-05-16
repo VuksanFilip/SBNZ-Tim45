@@ -56,4 +56,9 @@ public class User {
     @OneToMany(mappedBy = "ratedBy", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
 }
