@@ -42,17 +42,6 @@ public class Song {
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    // users
-    @ManyToMany(mappedBy = "listenedSongs")
-    private List<User> listeners;
-
-    @ManyToMany(mappedBy = "ratedSongs")
-    private List<User> raters;
-
-    @ManyToMany(mappedBy = "favoriteSongs")
-    private List<User> favoritedBy;
-
-    // counts
     @Column
     private int listensCount;
 
