@@ -1,0 +1,35 @@
+package forward;
+
+import java.util.Set;
+import java.util.List;
+import com.ftn.sbnz.model.models.dtos.RecommendedSongDTO;
+import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.models.dtos.SongDTO;
+import com.ftn.sbnz.model.models.Song
+import com.ftn.sbnz.model.models.User
+import com.ftn.sbnz.model.models.enums.Genre
+
+global Set<RecommendedSongDTO> recommendations;
+
+
+rule "Ako je jednaka sa 2 kreiraj Recommended song"
+salience 10
+when
+    $userDTO: UserDTO(age == 2)
+then
+    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
+    recommendedSong.setGenre("A");
+    recommendations.add(recommendedSong);
+    insert(recommendedSong);
+end
+
+rule "Ako je razlicita od null kreiraj Recommended song"
+salience 10
+when
+    $userDTO: UserDTO(age != 2)
+then
+    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
+    recommendedSong.setGenre("A");
+    recommendations.add(recommendedSong);
+    insert(recommendedSong);
+end
