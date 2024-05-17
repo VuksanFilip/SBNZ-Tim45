@@ -56,8 +56,14 @@ public class SongServiceImpl implements SongService {
         Set<SongDTO> recommendations = new HashSet<>();
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
 
+        for(Song s: userPreference.getFavoriteSongs()){
+            System.out.println("Favorite song " + s.getName());
+        }
+        System.out.println("Song " + song.getName());
+
         kieSession.setGlobal("recommendations", recommendations);
         kieSession.insert(song);
+        kieSession.insert(userPreference);
         kieSession.fireAllRules();
         kieSession.dispose();
 
@@ -88,6 +94,7 @@ public class SongServiceImpl implements SongService {
 
         Set<SongDTO> recommendations = new HashSet<>();
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
+
 
         kieSession.setGlobal("recommendations", recommendations);
         kieSession.insert(song);
