@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.controllers;
 
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
-import com.ftn.sbnz.service.dtos.UserDTO;
+import com.ftn.sbnz.model.models.dtos.UserDTO;
 import com.ftn.sbnz.service.services.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

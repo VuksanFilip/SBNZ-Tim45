@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RecommendedSongDTO {
+public class GenreDTO {
 
-    String genre;
+    private String genre;
 
 }

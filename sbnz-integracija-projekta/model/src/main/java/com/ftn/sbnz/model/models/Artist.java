@@ -1,6 +1,5 @@
 package com.ftn.sbnz.model.models;
 
-import com.ftn.sbnz.model.models.enums.Genre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +26,8 @@ public class Artist {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)

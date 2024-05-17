@@ -1,6 +1,5 @@
 package com.ftn.sbnz.model.models;
 
-import com.ftn.sbnz.model.models.enums.Genre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +27,8 @@ public class Album {
     @Column
     private LocalDateTime releaseDate;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @ManyToOne(fetch = FetchType.LAZY)

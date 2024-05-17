@@ -8,28 +8,41 @@ import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.model.models.Song
 import com.ftn.sbnz.model.models.User
 import com.ftn.sbnz.model.models.enums.Genre
+import com.ftn.sbnz.model.Message
 
 global Set<RecommendedSongDTO> recommendations;
 
 
-rule "Ako je jednaka sa 2 kreiraj Recommended song"
-salience 10
-when
-    $userDTO: UserDTO(age == 2)
-then
-    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
-    recommendedSong.setGenre("A");
-    recommendations.add(recommendedSong);
-    insert(recommendedSong);
+rule "Hello World"
+    when
+//        $m: Message(status == Message.HELLO, myMessage: message)
+        $userDTO: UserDTO(age == 2, myAge: age)
+    then
+        System.out.println( myAge);
+        RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
+        recommendedSong.setGenre("A");
+        recommendations.add(recommendedSong);
+        insert(recommendedSong);
+//        modify($m){setMessage("Goodbye cruel world"), setStatus( Message.GOODBYE) };
 end
 
-rule "Ako je razlicita od null kreiraj Recommended song"
-salience 10
-when
-    $userDTO: UserDTO(age != 2)
-then
-    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
-    recommendedSong.setGenre("A");
-    recommendations.add(recommendedSong);
-    insert(recommendedSong);
-end
+//rule "Ako je jednaka sa 2 kreiraj Recommended song"
+//when
+//    $userDTO: UserDTO(age == 2)
+//then
+//    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
+//    recommendedSong.setGenre("A");
+//    recommendations.add(recommendedSong);
+//    insert(recommendedSong);
+//end
+
+//rule "Ako je razlicita od null kreiraj Recommended song"
+//salience 10
+//when
+//    $userDTO: UserDTO(age != 2)
+//then
+//    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
+//    recommendedSong.setGenre("A");
+//    recommendations.add(recommendedSong);
+//    insert(recommendedSong);
+//end

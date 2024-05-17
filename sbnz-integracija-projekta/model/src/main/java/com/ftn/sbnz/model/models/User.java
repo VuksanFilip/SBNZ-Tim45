@@ -2,7 +2,6 @@ package com.ftn.sbnz.model.models;
 
 import java.util.List;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,28 +26,6 @@ public class User {
 
     @Column
     private String password;
-
-    @ManyToMany
-    @JoinTable(
-            name = "listened_songs",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> listenedSongs;
-
-    @ManyToMany
-    @JoinTable(
-            name = "rated_songs",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> ratedSongs;
-
-    @ManyToMany
-    @JoinTable(
-            name = "favorite_songs",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Song> favoriteSongs;
-
 
     @OneToOne(mappedBy = "user")
     private UserPreference preference;

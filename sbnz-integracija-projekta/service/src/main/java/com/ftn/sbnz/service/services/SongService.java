@@ -7,8 +7,8 @@ public interface SongService {
 
     Song findById(Long id);
 
-    String addToFavoriteSongs(Long userId, Long songId);
-
-    String addToListenedSongs(Long userId, Long songId);
+//    String addToFavoriteSongs(Long userId, Long songId);
+//
+//    String addToListenedSongs(Long userId, Long songId);
 
 }

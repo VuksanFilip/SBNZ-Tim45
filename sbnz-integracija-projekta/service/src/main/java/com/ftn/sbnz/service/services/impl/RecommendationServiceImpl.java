@@ -1,9 +1,10 @@
 package com.ftn.sbnz.service.services.impl;
 
+import com.ftn.sbnz.model.Message;
 import com.ftn.sbnz.model.models.Artist;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
-import com.ftn.sbnz.service.dtos.UserDTO;
+import com.ftn.sbnz.model.models.dtos.UserDTO;
 import com.ftn.sbnz.service.repositories.ArtistRepository;
 import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.repositories.UserRepository;
@@ -36,15 +37,21 @@ public class RecommendationServiceImpl implements RecommendationService {
     public Set<RecommendedSongDTO> getRecommendations(UserDTO userDTO) {
         Set<RecommendedSongDTO> recommendations = new HashSet<>();
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
-//        List<Song> songs = songRepository.findAll();
-//        List<Artist> artists = artistRepository.findAll();
 
+        Message message = new Message();
+        message.setMessage("Hello World");
+        message.setStatus(Message.HELLO);
         kieSession.setGlobal("recommendations", recommendations);
+//        kieSession.insert(message);
         kieSession.insert(userDTO);
-
         kieSession.fireAllRules();
-        kieSession.dispose();
-        System.out.println(debugInfo.size());
+//        kieSession.setGlobal("recommendations", recommendations);
+//        kieSession.insert(userDTO);
+//
+//        kieSession.fireAllRules();
+//        kieSession.dispose();
+//        System.out.println(recommendations.size());
+//        return recommendations;
         return recommendations;
     }
 
