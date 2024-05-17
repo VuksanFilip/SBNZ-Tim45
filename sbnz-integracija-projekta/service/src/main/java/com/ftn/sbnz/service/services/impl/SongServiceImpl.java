@@ -1,8 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.models.Song;
-import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.service.exceptions.BadRequestException;
+import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.SongService;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +69,30 @@ public class SongServiceImpl implements SongService {
 //
 //        return String.format("Successfully listened song %s by %s!", song.getName(), song.getArtist().getUsername());
 //    }
+
+
+
+    @Override
+    public List<SongDTO> findAll() {
+        return songRepository.findAll().stream()
+                .map(SongDTO::toSongDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SongDTO> findAllByArtist(Long artistId) {
+        return songRepository.findAllByArtist_Id(artistId).stream()
+                .map(SongDTO::toSongDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SongDTO> findAllByGenre(Long genreId) {
+        return songRepository.findAllByArtist_Id(genreId).stream()
+                .map(SongDTO::toSongDTO)
+                .collect(Collectors.toList());
+    }
+
+
 
 }
