@@ -1,5 +1,6 @@
 package com.ftn.sbnz.model.models.dtos;
 
+import com.ftn.sbnz.model.models.Song;
 import lombok.*;
 
 import java.util.List;
@@ -13,17 +14,25 @@ public class SongDTO {
 
     private String name;
 
-    private ArtistDTO artist;
+    private String artist;
 
-    private AlbumDTO album;
+    private String album;
 
-    private GenreDTO genre;
-
-    private List<RatingDTO> ratings;
+    private String genre;
 
     private int listensCount;
 
     private int favoritesCount;
 
+    public static SongDTO toSongDTO(Song song) {
+        return SongDTO.builder()
+                .name(song.getName())
+                .artist(song.getArtist().getUsername())
+                .album(song.getAlbum().getTitle())
+                .genre(song.getGenre().getGenre())
+                .listensCount(song.getListensCount())
+                .favoritesCount(song.getFavoritesCount())
+                .build();
+    }
 
 }
