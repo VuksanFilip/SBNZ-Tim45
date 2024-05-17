@@ -2,17 +2,14 @@ package com.ftn.sbnz.model.models;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Data
+@Builder
 @NoArgsConstructor
-@Setter
-@Getter
-@ToString
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -32,10 +29,5 @@ public class User {
 
     @OneToMany(mappedBy = "ratedBy", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
 }
