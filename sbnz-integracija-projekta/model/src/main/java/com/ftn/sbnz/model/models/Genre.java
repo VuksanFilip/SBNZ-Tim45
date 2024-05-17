@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
 @Entity
 @Table(name = "genres")
 public class Genre {

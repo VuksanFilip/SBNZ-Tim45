@@ -9,14 +9,14 @@ public interface SongService {
 
     Song findById(Long id);
 
+    String addToFavoriteSongs(Long userId, Long songId);
+
+    String addToListenedSongs(Long userId, Long songId);
+
     List<SongDTO> findAll();
 
     List<SongDTO> findAllByArtist(Long artistId);
 
     List<SongDTO> findAllByGenre(Long genreId);
-
-//    String addToFavoriteSongs(Long userId, Long songId);
-//
-//    String addToListenedSongs(Long userId, Long songId);
 
 }
