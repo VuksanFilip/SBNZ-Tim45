@@ -32,7 +32,6 @@ public class SongServiceImpl implements SongService {
     public String addToFavoriteSongs(Long userId, Long songId) {
         UserPreference userPreference = userPreferenceService.findByUserId(userId);
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
-        System.out.println(favoriteSongs);
 
         Song song = findById(songId);
 
@@ -43,11 +42,8 @@ public class SongServiceImpl implements SongService {
         }
 
         favoriteSongs.add(song);
-        System.out.println(favoriteSongs);
         userPreference.setFavoriteSongs(favoriteSongs);
-        System.out.println(userPreference.getFavoriteSongs());
-        UserPreference up = userPreferenceService.save(userPreference);
-        System.out.println(up);
+        userPreferenceService.save(userPreference);
 
         return String.format("Successfully added song %s by %s to your favorites songs!", song.getName(), song.getArtist().getUsername());
     }
