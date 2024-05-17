@@ -2,6 +2,8 @@ package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.UserPreference;
+import com.ftn.sbnz.model.models.dtos.UserPreferenceDTO;
+import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
 import com.ftn.sbnz.service.exceptions.BadRequestException;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
@@ -9,9 +11,13 @@ import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.SongService;
 import com.ftn.sbnz.service.services.UserPreferenceService;
 import lombok.RequiredArgsConstructor;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +28,8 @@ public class SongServiceImpl implements SongService {
 
     private final UserPreferenceService userPreferenceService;
 
+    private final KieContainer kieContainer;
+
     @Override
     public Song findById(Long id) {
         return songRepository.findById(id)
@@ -29,7 +37,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public String addToFavoriteSongs(Long userId, Long songId) {
+    public Set<SongDTO> addToFavoriteSongs(Long userId, Long songId) {
         UserPreference userPreference = userPreferenceService.findByUserId(userId);
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
 
@@ -45,11 +53,19 @@ public class SongServiceImpl implements SongService {
         userPreference.setFavoriteSongs(favoriteSongs);
         userPreferenceService.save(userPreference);
 
-        return String.format("Successfully added song %s by %s to your favorites songs!", song.getName(), song.getArtist().getUsername());
+        Set<SongDTO> recommendations = new HashSet<>();
+        KieSession kieSession = kieContainer.newKieSession("fwKsession");
+
+        kieSession.setGlobal("recommendations", recommendations);
+        kieSession.insert(song);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        return recommendations;
     }
 
     @Override
-    public String addToListenedSongs(Long userId, Long songId) {
+    public Set<SongDTO> addToListenedSongs(Long userId, Long songId) {
         UserPreference userPreference = userPreferenceService.findByUserId(userId);
         List<Song> listenedSongs = userPreference.getListenedSongs();
 
@@ -70,7 +86,16 @@ public class SongServiceImpl implements SongService {
             userPreferenceService.save(userPreference);
         }
 
-        return String.format("Successfully listened song %s by %s!", song.getName(), song.getArtist().getUsername());
+        Set<SongDTO> recommendations = new HashSet<>();
+        KieSession kieSession = kieContainer.newKieSession("fwKsession");
+
+        kieSession.setGlobal("recommendations", recommendations);
+        kieSession.insert(song);
+        kieSession.insert(userPreference);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        return recommendations;
     }
 
 

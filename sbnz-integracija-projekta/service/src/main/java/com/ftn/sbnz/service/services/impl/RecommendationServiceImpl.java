@@ -38,20 +38,11 @@ public class RecommendationServiceImpl implements RecommendationService {
         Set<RecommendedSongDTO> recommendations = new HashSet<>();
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
 
-        Message message = new Message();
-        message.setMessage("Hello World");
-        message.setStatus(Message.HELLO);
         kieSession.setGlobal("recommendations", recommendations);
-//        kieSession.insert(message);
         kieSession.insert(userDTO);
         kieSession.fireAllRules();
-//        kieSession.setGlobal("recommendations", recommendations);
-//        kieSession.insert(userDTO);
-//
-//        kieSession.fireAllRules();
-//        kieSession.dispose();
-//        System.out.println(recommendations.size());
-//        return recommendations;
+        kieSession.dispose();
+
         return recommendations;
     }
 

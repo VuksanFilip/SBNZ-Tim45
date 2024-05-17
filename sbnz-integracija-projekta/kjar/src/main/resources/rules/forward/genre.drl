@@ -3,46 +3,31 @@ package forward;
 import java.util.Set;
 import java.util.List;
 import com.ftn.sbnz.model.models.dtos.RecommendedSongDTO;
-import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.models.UserPreference;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
-import com.ftn.sbnz.model.models.Song
-import com.ftn.sbnz.model.models.User
-import com.ftn.sbnz.model.models.enums.Genre
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.User;
 import com.ftn.sbnz.model.Message
+import com.ftn.sbnz.model.models.Genre
+import java.util.ArrayList
+import java.util.HashSet
+import java.util.stream.Collectors;
 
-global Set<RecommendedSongDTO> recommendations;
+global Set<SongDTO> recommendations;
 
-
-rule "Hello World"
-    when
-//        $m: Message(status == Message.HELLO, myMessage: message)
-        $userDTO: UserDTO(age == 2, myAge: age)
-    then
-        System.out.println( myAge);
-        RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
-        recommendedSong.setGenre("A");
-        recommendations.add(recommendedSong);
-        insert(recommendedSong);
-//        modify($m){setMessage("Goodbye cruel world"), setStatus( Message.GOODBYE) };
+rule "When added song to favorites recommend a song by same genre"
+when
+    $song: Song()
+then
+    Genre genre = $song.getGenre();
+    SongDTO newSong = SongDTO.builder()
+    .name("New Song")
+    .artist("Artist")
+    .album("Album")
+    .genre(genre.getGenre())
+    .listensCount(100)
+    .favoritesCount(7)
+    .build();
+    recommendations.add(newSong);
+    insert(recommendations);
 end
-
-//rule "Ako je jednaka sa 2 kreiraj Recommended song"
-//when
-//    $userDTO: UserDTO(age == 2)
-//then
-//    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
-//    recommendedSong.setGenre("A");
-//    recommendations.add(recommendedSong);
-//    insert(recommendedSong);
-//end
-
-//rule "Ako je razlicita od null kreiraj Recommended song"
-//salience 10
-//when
-//    $userDTO: UserDTO(age != 2)
-//then
-//    RecommendedSongDTO recommendedSong = new RecommendedSongDTO();
-//    recommendedSong.setGenre("A");
-//    recommendations.add(recommendedSong);
-//    insert(recommendedSong);
-//end

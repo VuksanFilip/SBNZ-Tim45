@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @PutMapping(value = "/{userId}/listened-songs/{songId}")
-    public ResponseEntity<String> addToListenedSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
+    public ResponseEntity<?> addToListenedSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
         return new ResponseEntity<>(songService.addToListenedSongs(userId, songId), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{userId}/favorite-songs/{songId}")
-    public ResponseEntity<String> addToFavoriteSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
+    public ResponseEntity<?> addToFavoriteSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
         return new ResponseEntity<>(songService.addToFavoriteSongs(userId, songId), HttpStatus.OK);
     }
 
