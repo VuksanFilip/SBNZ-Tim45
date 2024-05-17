@@ -1,6 +1,7 @@
 package com.ftn.sbnz.service.services;
 
 import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.dtos.RatingDTO;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
 
@@ -21,4 +22,5 @@ public interface SongService {
 
     List<SongDTO> findAllByGenre(Long genreId);
 
+    Set<SongDTO> rateSong(RatingDTO ratingDTO);
 }

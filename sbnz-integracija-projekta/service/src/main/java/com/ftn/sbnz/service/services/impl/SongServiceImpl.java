@@ -1,15 +1,20 @@
 package com.ftn.sbnz.service.services.impl;
 
+import com.ftn.sbnz.model.models.Rating;
 import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.User;
 import com.ftn.sbnz.model.models.UserPreference;
+import com.ftn.sbnz.model.models.dtos.RatingDTO;
 import com.ftn.sbnz.model.models.dtos.UserPreferenceDTO;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
 import com.ftn.sbnz.service.exceptions.BadRequestException;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
+import com.ftn.sbnz.service.repositories.RatingRepository;
 import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.SongService;
 import com.ftn.sbnz.service.services.UserPreferenceService;
+import com.ftn.sbnz.service.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -27,6 +32,10 @@ public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
 
     private final UserPreferenceService userPreferenceService;
+
+    private final UserService userService;
+
+    private final RatingRepository ratingRepository;
 
     private final KieContainer kieContainer;
 
@@ -128,6 +137,44 @@ public class SongServiceImpl implements SongService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Set<SongDTO> rateSong(RatingDTO ratingDTO) {
+        User user = userService.findById(ratingDTO.getRatedById());
+        UserPreference userPreference = userPreferenceService.findByUserId(user.getId());
+        List<Song> ratedSongs = userPreference.getRatedSongs();
+        Song song = findById(ratingDTO.getSongId());
+
+        Rating rating = Rating.builder()
+                .ratedBy(user)
+                .song(song)
+                .rating(ratingDTO.getRating())
+                .comment(ratingDTO.getComment())
+                .build();
+
+        for (Song s : ratedSongs) {
+            if (s.getId().equals(song.getId())){
+                throw new BadRequestException(String.format("Song %s by %s is already rated!", song.getName(), song.getArtist().getUsername()));
+            }
+        }
+
+        ratingRepository.save(rating);
+        ratedSongs.add(song);
+        userPreference.setRatedSongs(ratedSongs);
+        userPreferenceService.save(userPreference);
+
+        Set<SongDTO> recommendations = new HashSet<>();
+        KieSession kieSession = kieContainer.newKieSession("fwKsession");
+
+
+        kieSession.setGlobal("recommendations", recommendations);
+        kieSession.insert(song);
+        kieSession.insert(rating);
+        kieSession.insert(userPreference);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        return recommendations;
+    }
 
 
 }

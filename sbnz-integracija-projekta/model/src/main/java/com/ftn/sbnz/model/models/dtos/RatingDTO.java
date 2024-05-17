@@ -9,9 +9,9 @@ import lombok.*;
 @Builder
 public class RatingDTO {
 
-    private UserDTO ratedBy;
+    private Long ratedById;
 
-    private SongDTO song;
+    private Long songId;
 
     private int rating;
 

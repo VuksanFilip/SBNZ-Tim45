@@ -7,6 +7,7 @@ import com.ftn.sbnz.model.models.UserPreference;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.models.Rating;
 import com.ftn.sbnz.model.Message
 import com.ftn.sbnz.model.models.Genre
 import java.util.ArrayList
@@ -37,6 +38,25 @@ rule "When listen to song recommend a song by same genre"
 when
         $song: Song()
         $userPreference: UserPreference($song memberOf listenedSongs, listenedSongs contains $song)
+then
+    Genre genre = $song.getGenre();
+    SongDTO newSong = SongDTO.builder()
+    .name("New Song")
+    .artist("Artist")
+    .album("Album")
+    .genre(genre.getGenre())
+    .listensCount(100)
+    .favoritesCount(7)
+    .build();
+    recommendations.add(newSong);
+    insert(recommendations);
+end
+
+rule "When user rated song >=4 recommend a song by same genre"
+when
+        $song: Song()
+        $rating: Rating(rating >= 4)
+        $userPreference: UserPreference($song memberOf ratedSongs, ratedSongs contains $song)
 then
     Genre genre = $song.getGenre();
     SongDTO newSong = SongDTO.builder()
