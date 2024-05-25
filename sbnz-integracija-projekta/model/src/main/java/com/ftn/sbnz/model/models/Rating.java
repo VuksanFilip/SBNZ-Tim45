@@ -1,16 +1,14 @@
 package com.ftn.sbnz.model.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@Setter
 @Getter
-@ToString
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "ratings")
 public class Rating {

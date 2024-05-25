@@ -1,6 +1,5 @@
 package com.ftn.sbnz.model.models;
 
-import com.ftn.sbnz.model.models.enums.Genre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
 @Entity
 @Table(name = "songs")
 public class Song {
@@ -33,7 +31,8 @@ public class Song {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @Column

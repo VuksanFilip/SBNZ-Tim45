@@ -1,16 +1,15 @@
 package com.ftn.sbnz.model.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-@NoArgsConstructor
-@Setter
 @Getter
-@ToString
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_preferences")
 public class UserPreference {
@@ -23,10 +22,47 @@ public class UserPreference {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
-    private String explicitPreferences;
+    @ManyToMany
+    @JoinTable(
+            name = "listened_songs",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> listenedSongs;
 
-    @Column
-    private String implicitPreferences;
+    @ManyToMany
+    @JoinTable(
+            name = "rated_songs",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> ratedSongs;
+
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_songs",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> favoriteSongs;
+
+    @ManyToMany
+    @JoinTable(
+            name = "explicit_songs",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private List<Song> explicitSongs;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "explicit_artists",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id"))
+    private List<Artist> explicitArtists;
+
+    @ManyToMany
+    @JoinTable(
+            name = "explicit_genres",
+            joinColumns = @JoinColumn(name = "user_preference_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> explicitGenres;
 
 }

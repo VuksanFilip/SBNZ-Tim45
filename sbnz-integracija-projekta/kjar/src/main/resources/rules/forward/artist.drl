@@ -1,0 +1,71 @@
+package forward;
+
+import java.util.Set;
+import java.util.List;
+import com.ftn.sbnz.model.models.dtos.RecommendedSongDTO;
+import com.ftn.sbnz.model.models.UserPreference;
+import com.ftn.sbnz.model.models.dtos.SongDTO;
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.models.Rating;
+import com.ftn.sbnz.model.models.Artist;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
+global Set<SongDTO> recommendations;
+
+rule "When added song to favorites recommend a song by same artist"
+when
+        $song: Song()
+        $userPreference: UserPreference($song memberOf favoriteSongs, favoriteSongs contains $song)
+then
+    Artist artist = $song.getArtist();
+    SongDTO newSong = SongDTO.builder()
+        .name("New Song")
+        .artist(artist.getUsername())
+        .album("Album")
+        .genre("POP")
+        .listensCount(100)
+        .favoritesCount(7)
+        .build();
+    recommendations.add(newSong);
+    insert(recommendations);
+end
+
+rule "When listen to song recommend a song by same artist"
+when
+        $song: Song()
+        $userPreference: UserPreference($song memberOf listenedSongs, listenedSongs contains $song)
+then
+    Artist artist = $song.getArtist();
+        SongDTO newSong = SongDTO.builder()
+        .name("New Song")
+        .artist(artist.getUsername())
+        .album("Album")
+        .genre("POP")
+        .listensCount(100)
+        .favoritesCount(7)
+        .build();
+    recommendations.add(newSong);
+    insert(recommendations);
+end
+
+rule "When user rated song >=4 recommend a song by same artist"
+when
+        $song: Song()
+        $rating: Rating(rating >= 4)
+        $userPreference: UserPreference($song memberOf ratedSongs, ratedSongs contains $song)
+then
+    Artist artist = $song.getArtist();
+            SongDTO newSong = SongDTO.builder()
+            .name("New Song")
+            .artist(artist.getUsername())
+            .album("Album")
+            .genre("POP")
+            .listensCount(100)
+            .favoritesCount(7)
+            .build();
+        recommendations.add(newSong);
+        insert(recommendations);
+end
