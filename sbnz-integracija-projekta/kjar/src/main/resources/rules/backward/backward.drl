@@ -1,1 +1,17 @@
 package backward;
+
+import com.ftn.sbnz.model.BackwardModel;
+
+query isChildOf( String x, String y )
+  BackwardModel( x, y; )
+  or
+  ( BackwardModel( z, y; ) and isChildOf( x, z; ) )
+end
+
+rule "Backward rule"
+when
+    String( this == "backward-rule" )
+    isChildOf( x, y; )
+then
+    System.out.println(x + ", " + y);
+end
