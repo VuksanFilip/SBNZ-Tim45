@@ -8,10 +8,29 @@ query isChildOf( String x, String y )
   ( BackwardModel( z, y; ) and isChildOf( x, z; ) )
 end
 
-rule "Backward rule"
+rule "Basic backward rule"
 when
-    String( this == "backward-rule" )
+    String( this == "basic-backward" )
     isChildOf( x, y; )
 then
     System.out.println(x + ", " + y);
+end
+
+rule "Find genre of artist"
+when
+    String( this == "find-artist-genre" )
+    isChildOf( artist, album; )
+    isChildOf( album, song; )
+    isChildOf( song, genre; )
+then
+    System.out.println("Artist " + artist + " does " + genre + " genre.");
+end
+
+rule "Fing genre of album"
+when
+    String( this == "find-album-genre" )
+    isChildOf( album, song; )
+    isChildOf( song, genre; )
+then
+    System.out.println("Album " + album + " is of " + genre + " genre.");
 end

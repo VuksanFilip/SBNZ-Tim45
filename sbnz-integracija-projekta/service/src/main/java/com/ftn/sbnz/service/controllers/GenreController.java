@@ -17,9 +17,21 @@ public class GenreController {
 
     private final GenreService genreService;
 
-    @GetMapping
-    public ResponseEntity<?> backwardModel(){
-        genreService.backwardModel();
+    @GetMapping(value = "/basic-backward")
+    public ResponseEntity<?> basicBackward(){
+        genreService.basicBackward();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/find-artist-genre")
+    public ResponseEntity<?> findArtistGenre(){
+        genreService.findArtistGenre();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/find-album-genre")
+    public ResponseEntity<?> findAlbumGenre(){
+        genreService.findAlbumGenre();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
