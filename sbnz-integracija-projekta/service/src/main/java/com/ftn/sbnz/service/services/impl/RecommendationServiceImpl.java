@@ -1,19 +1,13 @@
 package com.ftn.sbnz.service.services.impl;
 
-import com.ftn.sbnz.model.Message;
-import com.ftn.sbnz.model.models.Artist;
-import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
 import com.ftn.sbnz.model.models.dtos.UserDTO;
 import com.ftn.sbnz.service.repositories.ArtistRepository;
 import com.ftn.sbnz.service.repositories.SongRepository;
-import com.ftn.sbnz.service.repositories.UserRepository;
 import com.ftn.sbnz.service.services.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

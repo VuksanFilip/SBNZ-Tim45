@@ -1,1 +1,37 @@
 package backward;
+
+import com.ftn.sbnz.model.BackwardModel;
+
+query isConnected( String x, String y )
+  BackwardModel( x, y; )
+  or
+  ( BackwardModel( z, y; ) and isConnected( x, z; ) )
+end
+
+rule "Basic backward rule"
+when
+    String( this == "basic-backward" )
+    isConnected( x, y; )
+then
+    System.out.println(x + ", " + y);
+end
+
+rule "Find genre of artist"
+when
+    String( this == "find-artist-genre" )
+    isConnected( artist, album; )
+    isConnected( album, song; )
+    isConnected( song, genre; )
+then
+    System.out.println("Artist " + artist + " does " + genre + " genre.");
+end
+
+rule "Fing genre of album"
+when
+    String( this == "find-album-genre" )
+    isConnected( artist, album; )
+    isConnected( album, song; )
+    isConnected( song, genre; )
+then
+    System.out.println("Album " + album + " is of " + genre + " genre.");
+end
