@@ -35,4 +35,10 @@ public class GenreController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/find-similar-artists")
+    public ResponseEntity<?> findSimilarArtists(){
+        genreService.findSimilarArtists();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

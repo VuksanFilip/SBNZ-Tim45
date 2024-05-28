@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.services;
 
+import com.ftn.sbnz.model.models.Artist;
 import com.ftn.sbnz.model.models.User;
 import com.ftn.sbnz.model.models.dtos.ArtistDTO;
 
@@ -11,4 +12,6 @@ public interface ArtistService {
     ArtistDTO findBySong(Long songId);
 
     ArtistDTO findByGenre(Long genreId);
+
+    List<Artist> findAllArtists();
 }

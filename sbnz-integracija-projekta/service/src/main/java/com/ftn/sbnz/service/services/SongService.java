@@ -23,4 +23,6 @@ public interface SongService {
     List<SongDTO> findAllByGenre(Long genreId);
 
     Set<SongDTO> rateSong(RatingDTO ratingDTO);
+
+    List<Song> findAllSongs();
 }

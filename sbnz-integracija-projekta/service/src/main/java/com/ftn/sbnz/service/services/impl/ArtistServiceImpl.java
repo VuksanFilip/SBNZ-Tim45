@@ -38,4 +38,9 @@ public class ArtistServiceImpl implements ArtistService {
                 .orElseThrow(() -> new NotFoundException(String.format("Artis with genre id %s not found!", genreId)));
         return ArtistDTO.toArtistDTO(artist);
     }
+
+    @Override
+    public List<Artist> findAllArtists() {
+        return artistRepository.findAll();
+    }
 }

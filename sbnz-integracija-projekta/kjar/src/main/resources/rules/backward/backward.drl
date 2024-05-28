@@ -2,16 +2,16 @@ package backward;
 
 import com.ftn.sbnz.model.BackwardModel;
 
-query isChildOf( String x, String y )
+query isConnected( String x, String y )
   BackwardModel( x, y; )
   or
-  ( BackwardModel( z, y; ) and isChildOf( x, z; ) )
+  ( BackwardModel( z, y; ) and isConnected( x, z; ) )
 end
 
 rule "Basic backward rule"
 when
     String( this == "basic-backward" )
-    isChildOf( x, y; )
+    isConnected( x, y; )
 then
     System.out.println(x + ", " + y);
 end
@@ -19,9 +19,9 @@ end
 rule "Find genre of artist"
 when
     String( this == "find-artist-genre" )
-    isChildOf( artist, album; )
-    isChildOf( album, song; )
-    isChildOf( song, genre; )
+    isConnected( artist, album; )
+    isConnected( album, song; )
+    isConnected( song, genre; )
 then
     System.out.println("Artist " + artist + " does " + genre + " genre.");
 end
@@ -29,8 +29,9 @@ end
 rule "Fing genre of album"
 when
     String( this == "find-album-genre" )
-    isChildOf( album, song; )
-    isChildOf( song, genre; )
+    isConnected( artist, album; )
+    isConnected( album, song; )
+    isConnected( song, genre; )
 then
     System.out.println("Album " + album + " is of " + genre + " genre.");
 end

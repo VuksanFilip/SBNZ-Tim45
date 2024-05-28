@@ -8,6 +8,8 @@ import com.ftn.sbnz.service.services.AlbumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AlbumServiceImpl implements AlbumService {
@@ -26,5 +28,10 @@ public class AlbumServiceImpl implements AlbumService {
         Album album = albumRepository.findByArtistId(artistId)
                 .orElseThrow(() -> new NotFoundException(String.format("Album with artist id %s not found!", artistId)));
         return AlbumDTO.toAlbumDTO(album);
+    }
+
+    @Override
+    public List<Album> findAllAlbums() {
+        return albumRepository.findAll();
     }
 }

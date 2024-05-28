@@ -176,5 +176,10 @@ public class SongServiceImpl implements SongService {
         return recommendations;
     }
 
+    @Override
+    public List<Song> findAllSongs() {
+        return songRepository.findAll();
+    }
+
 
 }

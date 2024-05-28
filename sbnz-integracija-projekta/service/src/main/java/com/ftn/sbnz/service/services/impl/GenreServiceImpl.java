@@ -1,17 +1,40 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.BackwardModel;
+import com.ftn.sbnz.model.models.Album;
+import com.ftn.sbnz.model.models.Artist;
+import com.ftn.sbnz.model.models.Genre;
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.service.repositories.GenreRepository;
+import com.ftn.sbnz.service.services.AlbumService;
+import com.ftn.sbnz.service.services.ArtistService;
 import com.ftn.sbnz.service.services.GenreService;
+import com.ftn.sbnz.service.services.SongService;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
     private final KieContainer kieContainer;
+
+    private final GenreRepository genreRepository;
+
+    private final ArtistService artistService;
+
+    private final AlbumService albumService;
+
+    private final SongService songService;
+
+    @Override
+    public List<Genre> findAllGenres() {
+        return genreRepository.findAll();
+    }
 
     @Override
     public void basicBackward() {
@@ -49,4 +72,32 @@ public class GenreServiceImpl implements GenreService {
         kieSession.fireAllRules();
     }
 
+    @Override
+    public void findSimilarArtists() {
+        KieSession kieSession = createKieSessionWithData();
+
+        kieSession.insert( "find-similar-artists" );
+        kieSession.fireAllRules();
+    }
+
+    private KieSession createKieSessionWithData() {
+        KieSession kieSession = kieContainer.newKieSession("bwKsession");
+        for (Artist artist : artistService.findAllArtists()){
+            for (Album album : artist.getAlbums()){
+                kieSession.insert( new BackwardModel(artist.getUsername(), album.getTitle()) );
+            }
+        }
+
+        for (Album album : albumService.findAllAlbums()){
+            for (Song song : album.getSongs()){
+                kieSession.insert( new BackwardModel(album.getTitle(), song.getName()) );
+            }
+        }
+
+        for (Song song : songService.findAllSongs()){
+            kieSession.insert( new BackwardModel(song.getName(), song.getGenre().getGenre()) );
+        }
+
+        return kieSession;
+    }
 }

@@ -1,6 +1,11 @@
 package com.ftn.sbnz.service.services;
 
+import com.ftn.sbnz.model.models.Genre;
+
+import java.util.List;
+
 public interface GenreService {
+    List<Genre> findAllGenres();
 
     void basicBackward();
 
@@ -8,4 +13,5 @@ public interface GenreService {
 
     void findAlbumGenre();
 
+    void findSimilarArtists();
 }
