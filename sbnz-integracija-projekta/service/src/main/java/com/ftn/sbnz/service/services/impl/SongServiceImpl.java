@@ -1,5 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
+import com.ftn.sbnz.model.events.Event;
+import com.ftn.sbnz.model.events.EventType;
 import com.ftn.sbnz.model.models.Rating;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
@@ -15,11 +17,14 @@ import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.SongService;
 import com.ftn.sbnz.service.services.UserPreferenceService;
 import com.ftn.sbnz.service.services.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -179,6 +184,55 @@ public class SongServiceImpl implements SongService {
     @Override
     public List<Song> findAllSongs() {
         return songRepository.findAll();
+    }
+
+    @Override
+    public void cepTry() {
+        KieSession kieSession = kieContainer.newKieSession("cepKsession");
+        Song song1 = songRepository.findById(1L).get();
+        System.out.println("Song1 genre: " + song1.getGenre().getGenre());
+        Song song2 = songRepository.findById(2L).get();
+        System.out.println("Song2 genre: " + song2.getGenre().getGenre());
+        Song song3 = songRepository.findById(3L).get();
+        System.out.println("Song3 genre: " + song3.getGenre().getGenre());
+
+        User user = userService.findById(1L);
+
+        Event event1 = Event.builder()
+                .id(1L)
+                .executionTime(Date.from(Instant.now()))
+                .eventType(EventType.LISTENED)
+                .user(user)
+                .song(song1)
+                .build();
+
+        Event event2 = Event.builder()
+                .id(2L)
+                .executionTime(Date.from(Instant.now()))
+                .eventType(EventType.LISTENED)
+                .user(user)
+                .song(song2)
+                .build();
+
+        Event event3 = Event.builder()
+                .id(3L)
+                .executionTime(Date.from(Instant.now()))
+                .eventType(EventType.LISTENED)
+                .user(user)
+                .song(song3)
+                .build();
+
+        kieSession.insert(user);
+        kieSession.insert(song1);
+        kieSession.insert(event1);
+        kieSession.insert(song2);
+        kieSession.insert(event2);
+        kieSession.insert(song3);
+        kieSession.insert(event3);
+
+
+        kieSession.fireAllRules();
+        kieSession.dispose();
     }
 
 

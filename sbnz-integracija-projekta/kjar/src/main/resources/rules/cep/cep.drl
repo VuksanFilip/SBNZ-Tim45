@@ -1,1 +1,21 @@
 package cep;
+
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.Genre;
+import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.events.Event;
+import com.ftn.sbnz.model.events.EventType;
+
+rule "If user listened to more than 3 song with the same genre in one week, recommend 5 more songs from same genre"
+when
+  $user: User()
+  $song: Song()
+  $genre: Genre(genre == "POP") from $song.getGenre()
+  Number(intValue > 3) from accumulate(
+    $event: Event(eventType == EventType.LISTENED, user == $user, song == $song)
+    over window:time(7d),
+    count(1)
+  )
+then
+  System.out.println("CEP");
+end

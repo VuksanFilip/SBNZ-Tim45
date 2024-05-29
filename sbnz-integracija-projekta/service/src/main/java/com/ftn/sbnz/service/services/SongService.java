@@ -25,4 +25,6 @@ public interface SongService {
     Set<SongDTO> rateSong(RatingDTO ratingDTO);
 
     List<Song> findAllSongs();
+
+    void cepTry();
 }
