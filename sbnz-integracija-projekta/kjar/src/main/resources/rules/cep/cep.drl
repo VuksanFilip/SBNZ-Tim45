@@ -1,21 +1,61 @@
 package cep;
 
+import java.util.Set;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.Genre;
 import com.ftn.sbnz.model.models.User;
 import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
 
-rule "If user listened to more than 3 song with the same genre in one week, recommend 5 more songs from same genre"
+global Set<Song> listenedSongs;
+
+rule "If user listened to 3 or more songs with the same genre in one week, recommend 5 more songs from same genre"
 when
-  $user: User()
-  $song: Song()
-  $genre: Genre(genre == "POP") from $song.getGenre()
-  Number(intValue > 3) from accumulate(
-    $event: Event(eventType == EventType.LISTENED, user == $user, song == $song)
-    over window:time(7d),
-    count(1)
-  )
+    $event: Event($user: user, $song: song)
+    Number(intValue >= 2) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.LISTENED,
+            user == $user,
+            song.getGenre() == $song.getGenre(),
+            this after[0s, 7d] $event
+        ),
+        count($event2)
+    )
 then
   System.out.println("CEP");
 end
+
+
+//rule "If user listened to 10 or more songs with the same artist in one month, recommend album from same artist"
+//when
+//  Number(intValue >= 10) from accumulate(
+//    $event: Event(eventType == EventType.LISTENED)
+//    over window:time(30d),
+//    count($event)
+//  )
+//then
+//  System.out.println("CEP");
+//end
+//
+//rule "If user rated 5 or more songs with the same artist with 5 stars in one week, recommend 5 more songs from same artist"
+//when
+//  Number(intValue >= 5) from accumulate(
+//    $event: Event(eventType == EventType.LISTENED)
+//    over window:time(7d),
+//    count($event)
+//  )
+//then
+//  System.out.println("CEP");
+//end
+//
+//rule "If user rated 10 or more songs with the same genre with 5 stars in one month, recommend 5 more songs from same genre"
+//when
+//  Number(intValue >= 10) from accumulate(
+//    $event: Event(eventType == EventType.LISTENED)
+//    over window:time(30d),
+//    count($event)
+//  )
+//then
+//  System.out.println("CEP");
+//end

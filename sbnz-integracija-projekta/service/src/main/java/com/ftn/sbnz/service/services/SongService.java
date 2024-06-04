@@ -26,5 +26,5 @@ public interface SongService {
 
     List<Song> findAllSongs();
 
-    void cepTry();
+    void cepTry(Long id);
 }
