@@ -1,6 +1,6 @@
 package com.ftn.sbnz.service.services;
 
-import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.*;
 import com.ftn.sbnz.model.models.dtos.RatingDTO;
 import com.ftn.sbnz.model.models.dtos.SongDTO;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
@@ -26,5 +26,12 @@ public interface SongService {
 
     List<Song> findAllSongs();
 
-    void cepTry(Long id, Long userId);
+    Recommendation recommendSongsByGenre(int number, Genre genre, User user, String explanation);
+
+    Recommendation recommendSongsByArtis(int number, Artist artist, User user, String explanation);
+
+    void listenToSong(Long userId, Long songId);
+
+    void addRating(RatingDTO ratingDTO);
+
 }

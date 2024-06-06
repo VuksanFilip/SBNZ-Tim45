@@ -1,11 +1,16 @@
 package cep;
 
-import java.util.Set;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.Genre;
 import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.models.Recommendation;
 import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
+import com.ftn.sbnz.service.services.SongService;
+import java.util.Set;
+
+global SongService songService;
+global Set<Recommendation> recommendations;
 
 rule "If a user has listened to 3 or more songs of a certain genre in the last 7 days, recommend 5 new songs of the same genre that they haven't listened to yet."
 when
@@ -23,10 +28,12 @@ when
     )
 then
   System.out.println("CEP1");
+  Recommendation recommendation = songService.recommendSongsByGenre(5, $song.getGenre(), $user, String.format("You listened to 3 or more songs of %s genre in a week!", $song.getGenre().getGenre()));
+  recommendations.add(recommendation);
 end
 
 
-rule "If the user has listened to 5 or more songs by a certain artist in the last month, recommend an album by the same artist that he hasn't listened to yet."
+rule "If the user has listened to 5 or more songs by a certain artist in the last month, recommend an 3 more songs by the same artist that he hasn't listened to yet."
 when
     $event: Event($user: user, $song: song)
     Number(intValue >= 4) from accumulate(
@@ -42,6 +49,8 @@ when
     )
 then
     System.out.println("CEP2");
+    Recommendation recommendation = songService.recommendSongsByArtis(3, $song.getArtist(), $user, String.format("You listened to 5 or more songs of artist %s in a month!", $song.getArtist().getUsername()));
+    recommendations.add(recommendation);
 end
 
 rule "If a user rated 5 or more songs by a certain artist with 5 stars in the last week, recommend 5 new songs by the same artist that they haven't listened to yet."
@@ -61,11 +70,13 @@ when
     )
 then
     System.out.println("CEP3");
+    Recommendation recommendation = songService.recommendSongsByArtis(5, $song.getArtist(), $user, String.format("You rated 5 or more song with rating 5 of artist %s in a week!", $song.getArtist().getUsername()));
+    recommendations.add(recommendation);
 end
 
-rule "If a user rated 10 or more songs of a certain genre with 5 stars in the last month, recommend 5 new songs of the same genre that he hasn't listened to yet."
+rule "If a user rated 10 or more songs of a certain genre with 4 or more stars in the last month, recommend 5 new songs of the same genre that he hasn't listened to yet."
 when
-    $event: Event($user: user, $song: song, rating != null && rating.getRating() == 5)
+    $event: Event($user: user, $song: song, rating != null && rating.getRating() >= 4)
     Number(intValue >= 9) from accumulate(
         $event2: Event(
             this != $event,
@@ -73,13 +84,15 @@ when
             user == $user,
             song != $song,
             song.getGenre() == $song.getGenre(),
-            rating != null && rating.getRating() == 5,
+            rating != null && rating.getRating() >= 4,
             this after[0s, 30d] $event
         ),
         count($event2)
     )
 then
     System.out.println("CEP4");
+    Recommendation recommendation = songService.recommendSongsByGenre(5, $song.getGenre(), $user, String.format("You rated 10 or more songs with 4 or more stars of %s genre in a month!", $song.getGenre().getGenre()));
+    recommendations.add(recommendation);
 end
 
 rule "If the genre is currently popular (more than 10 users listened to it in 24 hours), recommend 3 songs from the genre to the user who marked that they want new music."

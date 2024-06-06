@@ -35,4 +35,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Event> events;
 
+    @OneToMany(mappedBy = "user")
+    private List<Recommendation> recommendations;
+
 }

@@ -37,9 +37,15 @@ public class SongController {
         return new ResponseEntity<>(songService.rateSong(ratingDTO), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/cep/{id}/{userId}")
-    public ResponseEntity<?> cepTry(@PathVariable("id") Long id, @PathVariable("userId") Long userId){
-        songService.cepTry(id, userId);
+    @PutMapping(value = "/{userId}/listen/{songId}")
+    public ResponseEntity<?> listenToSong(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId) {
+        songService.listenToSong(userId, songId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/rating")
+    public ResponseEntity<?> addRating(@RequestBody RatingDTO ratingDTO) {
+        songService.addRating(ratingDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
