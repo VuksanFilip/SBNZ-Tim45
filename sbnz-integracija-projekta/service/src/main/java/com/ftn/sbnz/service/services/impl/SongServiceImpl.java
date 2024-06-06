@@ -45,8 +45,6 @@ public class SongServiceImpl implements SongService {
 
     private final EventRepository eventRepository;
 
-    private final EntityManager entityManager;
-
     @Override
     public Song findById(Long id) {
         return songRepository.findById(id)
@@ -190,21 +188,39 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public void cepTry(Long id) {
-        User user = userService.findById(1L);
+    public void cepTry(Long id, Long userId) {
+        User user = userService.findById(userId);
         Song listenedSong = findById(id);
+        // rated
+//        Rating rating = Rating.builder()
+//                .ratedBy(user)
+//                .song(listenedSong)
+//                .rating(5)
+//                .comment("top")
+//                .build();
+//        ratingRepository.save(rating);
+//
+//        Event event = Event.builder()
+//                .executionTime(Date.from(Instant.now()))
+//                .eventType(EventType.RATED)
+//                .user(user)
+//                .song(listenedSong)
+//                .rating(rating)
+//                .build();
+
         Event event = Event.builder()
                 .executionTime(Date.from(Instant.now()))
-                .eventType(EventType.LISTENED)
+                .eventType(EventType.FAVORITED)
                 .user(user)
                 .song(listenedSong)
                 .build();
         eventRepository.save(event);
 
-        List<Event> events = user.getEvents();
+//        List<Event> events = user.getEvents();
+        List<Event> events = eventRepository.findAll();
         List<Event> listenEvents = new ArrayList<>();
         for (Event e : events) {
-            if (e.getEventType() == EventType.LISTENED) {
+            if (e.getEventType() == EventType.FAVORITED){
                 listenEvents.add(e);
             }
         }

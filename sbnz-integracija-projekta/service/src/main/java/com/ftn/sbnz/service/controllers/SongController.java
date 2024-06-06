@@ -37,9 +37,9 @@ public class SongController {
         return new ResponseEntity<>(songService.rateSong(ratingDTO), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/cep/{id}")
-    public ResponseEntity<?> cepTry(@PathVariable("id") Long id){
-        songService.cepTry(id);
+    @GetMapping(value = "/cep/{id}/{userId}")
+    public ResponseEntity<?> cepTry(@PathVariable("id") Long id, @PathVariable("userId") Long userId){
+        songService.cepTry(id, userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

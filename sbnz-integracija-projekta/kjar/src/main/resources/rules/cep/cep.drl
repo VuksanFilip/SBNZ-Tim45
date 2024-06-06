@@ -7,9 +7,7 @@ import com.ftn.sbnz.model.models.User;
 import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
 
-global Set<Song> listenedSongs;
-
-rule "If user listened to 3 or more songs with the same genre in one week, recommend 5 more songs from same genre"
+rule "If a user has listened to 3 or more songs of a certain genre in the last 7 days, recommend 5 new songs of the same genre that they haven't listened to yet."
 when
     $event: Event($user: user, $song: song)
     Number(intValue >= 2) from accumulate(
@@ -17,45 +15,120 @@ when
             this != $event,
             eventType == EventType.LISTENED,
             user == $user,
+            song != $song,
             song.getGenre() == $song.getGenre(),
             this after[0s, 7d] $event
         ),
         count($event2)
     )
 then
-  System.out.println("CEP");
+  System.out.println("CEP1");
 end
 
 
-//rule "If user listened to 10 or more songs with the same artist in one month, recommend album from same artist"
-//when
-//  Number(intValue >= 10) from accumulate(
-//    $event: Event(eventType == EventType.LISTENED)
-//    over window:time(30d),
-//    count($event)
-//  )
-//then
-//  System.out.println("CEP");
-//end
-//
-//rule "If user rated 5 or more songs with the same artist with 5 stars in one week, recommend 5 more songs from same artist"
-//when
-//  Number(intValue >= 5) from accumulate(
-//    $event: Event(eventType == EventType.LISTENED)
-//    over window:time(7d),
-//    count($event)
-//  )
-//then
-//  System.out.println("CEP");
-//end
-//
-//rule "If user rated 10 or more songs with the same genre with 5 stars in one month, recommend 5 more songs from same genre"
-//when
-//  Number(intValue >= 10) from accumulate(
-//    $event: Event(eventType == EventType.LISTENED)
-//    over window:time(30d),
-//    count($event)
-//  )
-//then
-//  System.out.println("CEP");
-//end
+rule "If the user has listened to 5 or more songs by a certain artist in the last month, recommend an album by the same artist that he hasn't listened to yet."
+when
+    $event: Event($user: user, $song: song)
+    Number(intValue >= 4) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.LISTENED,
+            user == $user,
+            song != $song,
+            song.getArtist() == $song.getArtist(),
+            this after[0s, 30d] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP2");
+end
+
+rule "If a user rated 5 or more songs by a certain artist with 5 stars in the last week, recommend 5 new songs by the same artist that they haven't listened to yet."
+when
+    $event: Event($user: user, $song: song, rating != null && rating.getRating() == 5)
+    Number(intValue >= 4) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.RATED,
+            user == $user,
+            song != $song,
+            song.getArtist() == $song.getArtist(),
+            rating != null && rating.getRating() == 5,
+            this after[0s, 7d] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP3");
+end
+
+rule "If a user rated 10 or more songs of a certain genre with 5 stars in the last month, recommend 5 new songs of the same genre that he hasn't listened to yet."
+when
+    $event: Event($user: user, $song: song, rating != null && rating.getRating() == 5)
+    Number(intValue >= 9) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.RATED,
+            user == $user,
+            song != $song,
+            song.getGenre() == $song.getGenre(),
+            rating != null && rating.getRating() == 5,
+            this after[0s, 30d] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP4");
+end
+
+rule "If the genre is currently popular (more than 10 users listened to it in 24 hours), recommend 3 songs from the genre to the user who marked that they want new music."
+when
+    $event: Event($user: user, $song: song)
+    Number(intValue >= 9) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.LISTENED,
+            user != $user,
+            song.getGenre() == $song.getGenre(),
+            this after[0s, 24h] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP5");
+end
+
+rule "If the song is currently popular (more than 10 users have listened to it in an hour), recommend the song to the user who has indicated that they want new music."
+when
+    $event: Event($user: user, $song: song)
+    Number(intValue >= 9) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.LISTENED,
+            user != $user,
+            song == $song,
+            this after[0s, 1h] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP6");
+end
+
+rule "If the song is currently a favorite (more than 10 users marked it as a favorite in 7 days), recommend the song to a user who marked as wanting new music."
+when
+    $event: Event($user: user, $song: song)
+    Number(intValue >= 9) from accumulate(
+        $event2: Event(
+            this != $event,
+            eventType == EventType.FAVORITED,
+            user != $user,
+            song == $song,
+            this after[0s, 7d] $event
+        ),
+        count($event2)
+    )
+then
+    System.out.println("CEP7");
+end
