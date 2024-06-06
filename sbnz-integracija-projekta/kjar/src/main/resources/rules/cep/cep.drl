@@ -49,7 +49,7 @@ when
     )
 then
     System.out.println("CEP2");
-    Recommendation recommendation = songService.recommendSongsByArtis(3, $song.getArtist(), $user, String.format("You listened to 5 or more songs of artist %s in a month!", $song.getArtist().getUsername()));
+    Recommendation recommendation = songService.recommendSongsByArtist(3, $song.getArtist(), $user, String.format("You listened to 5 or more songs of artist %s in a month!", $song.getArtist().getUsername()));
     recommendations.add(recommendation);
 end
 
@@ -70,7 +70,7 @@ when
     )
 then
     System.out.println("CEP3");
-    Recommendation recommendation = songService.recommendSongsByArtis(5, $song.getArtist(), $user, String.format("You rated 5 or more song with rating 5 of artist %s in a week!", $song.getArtist().getUsername()));
+    Recommendation recommendation = songService.recommendSongsByArtist(5, $song.getArtist(), $user, String.format("You rated 5 or more song with rating 5 of artist %s in a week!", $song.getArtist().getUsername()));
     recommendations.add(recommendation);
 end
 
@@ -110,6 +110,8 @@ when
     )
 then
     System.out.println("CEP5");
+    Recommendation recommendation = songService.recommendSongsByGenre(3, $song.getGenre(), $user, "You wanted new music!");
+    recommendations.add(recommendation);
 end
 
 rule "If the song is currently popular (more than 10 users have listened to it in an hour), recommend the song to the user who has indicated that they want new music."
@@ -127,6 +129,8 @@ when
     )
 then
     System.out.println("CEP6");
+    Recommendation recommendation = songService.recommendPopularSong($song);
+    recommendations.add(recommendation);
 end
 
 rule "If the song is currently a favorite (more than 10 users marked it as a favorite in 7 days), recommend the song to a user who marked as wanting new music."
@@ -144,4 +148,6 @@ when
     )
 then
     System.out.println("CEP7");
+    Recommendation recommendation = songService.recommendPopularSong($song);
+    recommendations.add(recommendation);
 end

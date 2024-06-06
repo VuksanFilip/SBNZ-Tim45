@@ -215,7 +215,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Recommendation recommendSongsByArtis(int number, Artist artist, User user, String explanation) {
+    public Recommendation recommendSongsByArtist(int number, Artist artist, User user, String explanation) {
         List<Song> allSongs = songRepository.findAll();
         List<Song> nonListenedSongsByGenre = new ArrayList<>();
         List<Song> listenedSongs = user.getPreference().getListenedSongs();
@@ -317,6 +317,46 @@ public class SongServiceImpl implements SongService {
         if (!recommendations.isEmpty()) {
             recommendationRepository.saveAll(recommendations);
         }
+    }
+
+    @Override
+    public Set<Recommendation> findNewMusic(Long userId) {
+        Set<Recommendation> recommendations = new HashSet<>();
+        User user = userService.findById(userId);
+
+        List<Event> events = eventRepository.findAll();
+
+        KieSession kieSession = kieContainer.newKieSession("cepKsession");
+        kieSession.setGlobal("songService", this);
+        kieSession.setGlobal("recommendations", recommendations);
+
+        if (!events.isEmpty()){
+            for (Event e : events){
+                kieSession.insert(e);
+            }
+        }
+
+        kieSession.fireAllRules();
+        kieSession.dispose();
+
+        if (!recommendations.isEmpty()) {
+            for (Recommendation r : recommendations) {
+                r.setUser(user);
+                recommendationRepository.save(r);
+            }
+        }
+
+        return recommendations;
+    }
+
+    @Override
+    public Recommendation recommendPopularSong(Song song) {
+        Set<Song> songs = new HashSet<>();
+        songs.add(song);
+        return Recommendation.builder()
+                .explanation("You wanted new music!")
+                .songs(songs)
+                .build();
     }
 
     private Event createEvent(EventType eventType, User user, Song song, Rating rating) {

@@ -49,4 +49,9 @@ public class SongController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{userId}/new-music")
+    public ResponseEntity<?> findNewMusic(@PathVariable("userId") Long userId) {
+        return new ResponseEntity<>(songService.findNewMusic(userId), HttpStatus.OK);
+    }
+
 }
