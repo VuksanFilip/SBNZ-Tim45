@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
-import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.dtos.UserDTO;
 import com.ftn.sbnz.service.repositories.ArtistRepository;
 import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.RecommendationService;

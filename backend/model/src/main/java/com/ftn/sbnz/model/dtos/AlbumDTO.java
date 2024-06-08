@@ -1,7 +1,6 @@
-package com.ftn.sbnz.model.models.dtos;
+package com.ftn.sbnz.model.dtos;
 
 import com.ftn.sbnz.model.models.Album;
-import com.ftn.sbnz.model.models.Artist;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,7 +27,7 @@ public class AlbumDTO {
     public static AlbumDTO toAlbumDTO(Album album) {
         return AlbumDTO.builder()
                 .title(album.getTitle())
-                .releaseDate(album.getReleaseDate())
+//                .releaseDate(album.getReleaseDate())
                 .genre(album.getGenre().getGenre())
                 .artist(album.getArtist().getUsername())
                 .songs(album.getSongs().stream().map(song -> SongDTO.toSongDTO(song)).collect(Collectors.toList()))

@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.services;
 
 import com.ftn.sbnz.model.models.Album;
-import com.ftn.sbnz.model.models.dtos.AlbumDTO;
+import com.ftn.sbnz.model.dtos.AlbumDTO;
 
 import java.util.List;
 

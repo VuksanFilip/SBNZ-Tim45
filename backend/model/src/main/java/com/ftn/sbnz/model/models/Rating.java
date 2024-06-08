@@ -19,7 +19,7 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "rated_by")
-    private User ratedBy;
+    private RegularUser ratedBy;
 
     @ManyToOne
     @JoinColumn(name = "song_id")

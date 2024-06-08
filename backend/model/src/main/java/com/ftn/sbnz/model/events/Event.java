@@ -1,6 +1,7 @@
 package com.ftn.sbnz.model.events;
 
 import com.ftn.sbnz.model.models.Rating;
+import com.ftn.sbnz.model.models.RegularUser;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
 import lombok.*;
@@ -32,7 +33,7 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private RegularUser user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")

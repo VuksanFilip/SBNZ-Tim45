@@ -1,8 +1,8 @@
 package com.ftn.sbnz.service.services;
 
 import com.ftn.sbnz.model.models.*;
-import com.ftn.sbnz.model.models.dtos.RatingDTO;
-import com.ftn.sbnz.model.models.dtos.SongDTO;
+import com.ftn.sbnz.model.dtos.RatingDTO;
+import com.ftn.sbnz.model.dtos.SongDTO;
 
 import java.util.List;
 import java.util.Set;

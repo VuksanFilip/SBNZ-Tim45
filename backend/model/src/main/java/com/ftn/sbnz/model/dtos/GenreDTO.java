@@ -1,4 +1,4 @@
-package com.ftn.sbnz.model.models.dtos;
+package com.ftn.sbnz.model.dtos;
 
 import lombok.*;
 

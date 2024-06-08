@@ -1,15 +1,11 @@
 package com.ftn.sbnz.service.services;
 
-
 import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.dtos.RegistrationDTO;
-import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.dtos.RegistrationDTO;
+import com.ftn.sbnz.model.dtos.UserDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.Optional;
-
-public interface UserService {
-
-    Optional<User> getByUsernameAndPassword(String username, String password);
+public interface UserService extends UserDetailsService {
 
     void add(User user);
 

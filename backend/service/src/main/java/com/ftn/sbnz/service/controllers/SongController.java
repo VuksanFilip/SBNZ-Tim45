@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.controllers;
 
-import com.ftn.sbnz.model.models.dtos.RatingDTO;
-import com.ftn.sbnz.model.models.dtos.SongDTO;
+import com.ftn.sbnz.model.dtos.RatingDTO;
+import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.services.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

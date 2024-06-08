@@ -1,8 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.models.Artist;
-import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.dtos.ArtistDTO;
+import com.ftn.sbnz.model.dtos.ArtistDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.ArtistRepository;
 import com.ftn.sbnz.service.services.ArtistService;

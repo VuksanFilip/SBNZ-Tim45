@@ -3,9 +3,9 @@ package com.ftn.sbnz.service.services.impl;
 import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
 import com.ftn.sbnz.model.models.*;
-import com.ftn.sbnz.model.models.dtos.RatingDTO;
+import com.ftn.sbnz.model.dtos.RatingDTO;
 import com.ftn.sbnz.service.exceptions.BadRequestException;
-import com.ftn.sbnz.model.models.dtos.SongDTO;
+import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.EventRepository;
 import com.ftn.sbnz.service.repositories.RatingRepository;
@@ -147,7 +147,7 @@ public class SongServiceImpl implements SongService {
         Song song = findById(ratingDTO.getSongId());
 
         Rating rating = Rating.builder()
-                .ratedBy(user)
+//                .ratedBy(user)
                 .song(song)
                 .rating(ratingDTO.getRating())
                 .comment(ratingDTO.getComment())
@@ -187,26 +187,26 @@ public class SongServiceImpl implements SongService {
     public Recommendation recommendSongsByGenre(int number, Genre genre, User user, String explanation) {
         List<Song> allSongs = songRepository.findAll();
         List<Song> nonListenedSongsByGenre = new ArrayList<>();
-        List<Song> listenedSongs = user.getPreference().getListenedSongs();
-
-        for (Song s : allSongs) {
-            if (s.getGenre().equals(genre) && !listenedSongs.contains(s)) {
-                nonListenedSongsByGenre.add(s);
-            }
-        }
-
-        List<Song> recommendedSongs;
-        if (nonListenedSongsByGenre.size() <= number) {
-            recommendedSongs = nonListenedSongsByGenre;
-        } else {
-            Collections.shuffle(nonListenedSongsByGenre);
-            recommendedSongs = nonListenedSongsByGenre.subList(0, number);
-        }
+//        List<Song> listenedSongs = user.getPreference().getListenedSongs();
+//
+//        for (Song s : allSongs) {
+//            if (s.getGenre().equals(genre) && !listenedSongs.contains(s)) {
+//                nonListenedSongsByGenre.add(s);
+//            }
+//        }
+//
+//        List<Song> recommendedSongs;
+//        if (nonListenedSongsByGenre.size() <= number) {
+//            recommendedSongs = nonListenedSongsByGenre;
+//        } else {
+//            Collections.shuffle(nonListenedSongsByGenre);
+//            recommendedSongs = nonListenedSongsByGenre.subList(0, number);
+//        }
 
         Recommendation recommendation = Recommendation.builder()
-                .user(user)
+//                .user(user)
                 .explanation(explanation)
-                .songs(new HashSet<>(recommendedSongs))
+//                .songs(new HashSet<>(recommendedSongs))
                 .build();
 
         recommendationRepository.save(recommendation);
@@ -218,13 +218,13 @@ public class SongServiceImpl implements SongService {
     public Recommendation recommendSongsByArtist(int number, Artist artist, User user, String explanation) {
         List<Song> allSongs = songRepository.findAll();
         List<Song> nonListenedSongsByGenre = new ArrayList<>();
-        List<Song> listenedSongs = user.getPreference().getListenedSongs();
-
-        for (Song s : allSongs) {
-            if (s.getArtist().equals(artist) && !listenedSongs.contains(s)) {
-                nonListenedSongsByGenre.add(s);
-            }
-        }
+//        List<Song> listenedSongs = user.getPreference().getListenedSongs();
+//
+//        for (Song s : allSongs) {
+//            if (s.getArtist().equals(artist) && !listenedSongs.contains(s)) {
+//                nonListenedSongsByGenre.add(s);
+//            }
+//        }
 
         List<Song> recommendedSongs;
         if (nonListenedSongsByGenre.size() <= number) {
@@ -235,7 +235,7 @@ public class SongServiceImpl implements SongService {
         }
 
         Recommendation recommendation = Recommendation.builder()
-                .user(user)
+//                .user(user)
                 .explanation(explanation)
                 .songs(new HashSet<>(recommendedSongs))
                 .build();
@@ -247,76 +247,76 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public void listenToSong(Long userId, Long songId) {
-        Set<Recommendation> recommendations = new HashSet<>();
-        User user = userService.findById(userId);
-        UserPreference userPreference = user.getPreference();
-        Song listenedSong = findById(songId);
-        List<Song> listenedSongs = userPreference.getListenedSongs();
-        listenedSongs.add(listenedSong);
-        userPreferenceService.save(userPreference);
-
-        Event event = createEvent(EventType.LISTENED, user, listenedSong, null);
-        eventRepository.save(event);
-
-        List<Event> events = eventRepository.findAll();
-
-        KieSession kieSession = kieContainer.newKieSession("cepKsession");
-        kieSession.setGlobal("songService", this);
-        kieSession.setGlobal("recommendations", recommendations);
-
-        if (!events.isEmpty()){
-            for (Event e : events){
-                kieSession.insert(e);
-            }
-        }
-
-        kieSession.fireAllRules();
-        kieSession.dispose();
-
-        if (!recommendations.isEmpty()) {
-            recommendationRepository.saveAll(recommendations);
-        }
+//        Set<Recommendation> recommendations = new HashSet<>();
+//        User user = userService.findById(userId);
+//        UserPreference userPreference = user.getPreference();
+//        Song listenedSong = findById(songId);
+//        List<Song> listenedSongs = userPreference.getListenedSongs();
+//        listenedSongs.add(listenedSong);
+//        userPreferenceService.save(userPreference);
+//
+//        Event event = createEvent(EventType.LISTENED, user, listenedSong, null);
+//        eventRepository.save(event);
+//
+//        List<Event> events = eventRepository.findAll();
+//
+//        KieSession kieSession = kieContainer.newKieSession("cepKsession");
+//        kieSession.setGlobal("songService", this);
+//        kieSession.setGlobal("recommendations", recommendations);
+//
+//        if (!events.isEmpty()){
+//            for (Event e : events){
+//                kieSession.insert(e);
+//            }
+//        }
+//
+//        kieSession.fireAllRules();
+//        kieSession.dispose();
+//
+//        if (!recommendations.isEmpty()) {
+//            recommendationRepository.saveAll(recommendations);
+//        }
     }
 
     @Override
     public void addRating(RatingDTO ratingDTO) {
-        Set<Recommendation> recommendations = new HashSet<>();
-        User user = userService.findById(ratingDTO.getRatedById());
-        UserPreference userPreference = user.getPreference();
-        Song ratedSong = findById(ratingDTO.getSongId());
-        List<Song> ratedSongs = userPreference.getRatedSongs();
-        ratedSongs.add(ratedSong);
-        userPreferenceService.save(userPreference);
-
-        Rating rating = Rating.builder()
-                .ratedBy(user)
-                .song(ratedSong)
-                .rating(ratingDTO.getRating())
-                .comment(ratingDTO.getComment())
-                .build();
-        ratingRepository.save(rating);
-
-        Event event = createEvent(EventType.RATED, user, ratedSong, rating);
-        eventRepository.save(event);
-
-        List<Event> events = eventRepository.findAll();
-
-        KieSession kieSession = kieContainer.newKieSession("cepKsession");
-        kieSession.setGlobal("songService", this);
-        kieSession.setGlobal("recommendations", recommendations);
-
-        if (!events.isEmpty()){
-            for (Event e : events){
-                kieSession.insert(e);
-            }
-        }
-
-        kieSession.fireAllRules();
-        kieSession.dispose();
-
-        if (!recommendations.isEmpty()) {
-            recommendationRepository.saveAll(recommendations);
-        }
+//        Set<Recommendation> recommendations = new HashSet<>();
+//        User user = userService.findById(ratingDTO.getRatedById());
+//        UserPreference userPreference = user.getPreference();
+//        Song ratedSong = findById(ratingDTO.getSongId());
+//        List<Song> ratedSongs = userPreference.getRatedSongs();
+//        ratedSongs.add(ratedSong);
+//        userPreferenceService.save(userPreference);
+//
+//        Rating rating = Rating.builder()
+//                .ratedBy(user)
+//                .song(ratedSong)
+//                .rating(ratingDTO.getRating())
+//                .comment(ratingDTO.getComment())
+//                .build();
+//        ratingRepository.save(rating);
+//
+//        Event event = createEvent(EventType.RATED, user, ratedSong, rating);
+//        eventRepository.save(event);
+//
+//        List<Event> events = eventRepository.findAll();
+//
+//        KieSession kieSession = kieContainer.newKieSession("cepKsession");
+//        kieSession.setGlobal("songService", this);
+//        kieSession.setGlobal("recommendations", recommendations);
+//
+//        if (!events.isEmpty()){
+//            for (Event e : events){
+//                kieSession.insert(e);
+//            }
+//        }
+//
+//        kieSession.fireAllRules();
+//        kieSession.dispose();
+//
+//        if (!recommendations.isEmpty()) {
+//            recommendationRepository.saveAll(recommendations);
+//        }
     }
 
     @Override
@@ -340,12 +340,12 @@ public class SongServiceImpl implements SongService {
         kieSession.fireAllRules();
         kieSession.dispose();
 
-        if (!recommendations.isEmpty()) {
-            for (Recommendation r : recommendations) {
-                r.setUser(user);
-                recommendationRepository.save(r);
-            }
-        }
+//        if (!recommendations.isEmpty()) {
+//            for (Recommendation r : recommendations) {
+//                r.setUser(user);
+//                recommendationRepository.save(r);
+//            }
+//        }
     }
 
     @Override
@@ -362,7 +362,7 @@ public class SongServiceImpl implements SongService {
         return Event.builder()
                 .executionTime(Date.from(Instant.now()))
                 .eventType(eventType)
-                .user(user)
+//                .user(user)
                 .song(song)
                 .rating(rating)
                 .build();

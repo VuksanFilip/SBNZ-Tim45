@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.models.Album;
-import com.ftn.sbnz.model.models.dtos.AlbumDTO;
+import com.ftn.sbnz.model.dtos.AlbumDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.AlbumRepository;
 import com.ftn.sbnz.service.services.AlbumService;

@@ -37,9 +37,6 @@ public class Song {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @Column
-    private LocalDateTime releaseDate;
-
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
@@ -48,6 +45,9 @@ public class Song {
 
     @Column
     private int favoritesCount;
+
+    @Column
+    private String length;
 
     @ManyToMany(mappedBy = "songs")
     private Set<Recommendation> recommendations = new HashSet<>();

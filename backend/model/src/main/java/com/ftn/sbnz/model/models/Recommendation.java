@@ -21,7 +21,7 @@ public class Recommendation {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private RegularUser user;
 
     @Column
     private String explanation;

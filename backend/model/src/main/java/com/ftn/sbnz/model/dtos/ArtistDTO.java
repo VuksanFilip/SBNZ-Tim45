@@ -1,10 +1,7 @@
-package com.ftn.sbnz.model.models.dtos;
+package com.ftn.sbnz.model.dtos;
 
 import com.ftn.sbnz.model.models.Artist;
-import com.ftn.sbnz.model.models.Song;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter

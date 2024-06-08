@@ -1,11 +1,14 @@
 package com.ftn.sbnz.model.models;
 
-import java.util.List;
-
-import com.ftn.sbnz.model.events.Event;
+import com.ftn.sbnz.model.models.enums.Role;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -14,7 +17,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +30,40 @@ public class User {
     @Column
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    private UserPreference preference;
+    @Column
+    private String firstName;
 
-    @OneToMany(mappedBy = "ratedBy")
-    private List<Rating> ratings;
+    @Column
+    private String lastName;
 
-    @OneToMany(mappedBy = "user")
-    private List<Event> events;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Recommendation> recommendations;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getRole().toString()));
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 
 }

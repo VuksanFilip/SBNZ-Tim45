@@ -1,18 +1,18 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.UserPreference;
-import com.ftn.sbnz.model.models.dtos.RegistrationDTO;
-import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.dtos.RegistrationDTO;
+import com.ftn.sbnz.model.dtos.UserDTO;
 import com.ftn.sbnz.service.exceptions.BadRequestException;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.UserRepository;
 import com.ftn.sbnz.service.services.UserPreferenceService;
 import com.ftn.sbnz.service.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserPreferenceService userPreferenceService;
-
-    @Override
-    public Optional<User> getByUsernameAndPassword(String username, String password){
-        return userRepository.findByUsernameAndPassword(username, password);
-    }
 
     @Override
     public void add(User user){
@@ -52,10 +47,10 @@ public class UserServiceImpl implements UserService {
                 .build();
         User user = userRepository.save(newUser);
 
-        UserPreference userPreference = UserPreference.builder()
-                .user(user)
-                .build();
-        userPreferenceService.save(userPreference);
+//        UserPreference userPreference = UserPreference.builder()
+//                .user(user)
+//                .build();
+//        userPreferenceService.save(userPreference);
 
         return UserDTO.toUserDTO(user);
     }
@@ -68,4 +63,12 @@ public class UserServiceImpl implements UserService {
                 });
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("No user found with email '%s'.", username));
+        }
+        return user;
+    }
 }

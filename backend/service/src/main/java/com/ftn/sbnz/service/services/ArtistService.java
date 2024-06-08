@@ -1,8 +1,7 @@
 package com.ftn.sbnz.service.services;
 
 import com.ftn.sbnz.model.models.Artist;
-import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.dtos.ArtistDTO;
+import com.ftn.sbnz.model.dtos.ArtistDTO;
 
 import java.util.List;
 

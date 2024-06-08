@@ -3,10 +3,9 @@ package com.ftn.sbnz.model.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,7 +23,7 @@ public class Album {
     private String title;
 
     @Column
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")

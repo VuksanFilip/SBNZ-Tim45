@@ -1,7 +1,7 @@
 package com.ftn.sbnz.service.controllers;
 
-import com.ftn.sbnz.model.models.dtos.RegistrationDTO;
-import com.ftn.sbnz.model.models.dtos.UserDTO;
+import com.ftn.sbnz.model.dtos.RegistrationDTO;
+import com.ftn.sbnz.model.dtos.UserDTO;
 import com.ftn.sbnz.service.services.SongService;
 import com.ftn.sbnz.service.services.UserService;
 import lombok.RequiredArgsConstructor;
