@@ -54,9 +54,15 @@
 		</dependency>
 
 		<dependency>
-      <groupId>com.ftn.sbnz</groupId>
-      <artifactId>model</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+		  <groupId>com.ftn.sbnz</groupId>
+		  <artifactId>model</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ftn.sbnz</groupId>
+			<artifactId>service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 

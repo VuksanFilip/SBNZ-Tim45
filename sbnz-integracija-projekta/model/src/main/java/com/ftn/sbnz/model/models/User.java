@@ -2,6 +2,7 @@ package com.ftn.sbnz.model.models;
 
 import java.util.List;
 
+import com.ftn.sbnz.model.events.Event;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +29,13 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserPreference preference;
 
-    @OneToMany(mappedBy = "ratedBy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ratedBy")
     private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "user")
+    private List<Event> events;
+
+    @OneToMany(mappedBy = "user")
+    private List<Recommendation> recommendations;
 
 }

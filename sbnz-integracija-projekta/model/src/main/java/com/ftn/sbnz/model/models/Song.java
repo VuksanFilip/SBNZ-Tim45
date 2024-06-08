@@ -7,7 +7,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -46,5 +48,8 @@ public class Song {
 
     @Column
     private int favoritesCount;
+
+    @ManyToMany(mappedBy = "songs")
+    private Set<Recommendation> recommendations = new HashSet<>();
 
 }
