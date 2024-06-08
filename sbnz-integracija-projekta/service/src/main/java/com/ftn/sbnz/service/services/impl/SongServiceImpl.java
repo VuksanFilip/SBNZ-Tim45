@@ -320,7 +320,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Set<Recommendation> findNewMusic(Long userId) {
+    public void findNewMusic(Long userId) {
         Set<Recommendation> recommendations = new HashSet<>();
         User user = userService.findById(userId);
 
@@ -329,6 +329,7 @@ public class SongServiceImpl implements SongService {
         KieSession kieSession = kieContainer.newKieSession("cepKsession");
         kieSession.setGlobal("songService", this);
         kieSession.setGlobal("recommendations", recommendations);
+        kieSession.insert("newMusic");
 
         if (!events.isEmpty()){
             for (Event e : events){
@@ -345,8 +346,6 @@ public class SongServiceImpl implements SongService {
                 recommendationRepository.save(r);
             }
         }
-
-        return recommendations;
     }
 
     @Override

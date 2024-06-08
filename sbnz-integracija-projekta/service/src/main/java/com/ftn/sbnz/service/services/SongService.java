@@ -33,7 +33,7 @@ public interface SongService {
 
     void addRating(RatingDTO ratingDTO);
 
-    Set<Recommendation> findNewMusic(Long userId);
+    void findNewMusic(Long userId);
 
     Recommendation recommendPopularSong(Song song);
 

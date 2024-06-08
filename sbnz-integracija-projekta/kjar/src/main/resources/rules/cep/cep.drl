@@ -97,6 +97,7 @@ end
 
 rule "If the genre is currently popular (more than 10 users listened to it in 24 hours), recommend 3 songs from the genre to the user who marked that they want new music."
 when
+    String(this == "newMusic")
     $event: Event($user: user, $song: song)
     Number(intValue >= 9) from accumulate(
         $event2: Event(
@@ -116,6 +117,7 @@ end
 
 rule "If the song is currently popular (more than 10 users have listened to it in an hour), recommend the song to the user who has indicated that they want new music."
 when
+    String(this == "newMusic")
     $event: Event($user: user, $song: song)
     Number(intValue >= 9) from accumulate(
         $event2: Event(
@@ -135,6 +137,7 @@ end
 
 rule "If the song is currently a favorite (more than 10 users marked it as a favorite in 7 days), recommend the song to a user who marked as wanting new music."
 when
+    String(this == "newMusic")
     $event: Event($user: user, $song: song)
     Number(intValue >= 9) from accumulate(
         $event2: Event(
