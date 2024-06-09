@@ -2,7 +2,6 @@ package com.ftn.sbnz.service.config;
 
 import com.ftn.sbnz.service.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -41,7 +40,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
 //                .antMatchers("/**").authenticated()
                 .and()
                 .headers().frameOptions().disable().and()

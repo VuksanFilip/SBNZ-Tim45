@@ -20,7 +20,7 @@ public class UserPreference {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private RegularUser user;
+    private User user;
 
     @ManyToMany
     @JoinTable(
