@@ -1,14 +1,14 @@
 package com.ftn.sbnz.service.controllers;
 
 import com.ftn.sbnz.model.dtos.ArtistDTO;
+import com.ftn.sbnz.model.dtos.GenreDTO;
 import com.ftn.sbnz.service.services.ArtistService;
+import com.ftn.sbnz.service.services.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +33,17 @@ public class ArtistController {
     public ResponseEntity<ArtistDTO> getArtistByGenre(@PathVariable("genreId") Long genreId) {
         return new ResponseEntity<>(artistService.findByGenre(genreId), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyAuthority('ARTIST', 'REGULAR_USER')")
+    public ResponseEntity<?> getArtistById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(artistService.getArtist(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}/genre")
+    @PreAuthorize("hasAuthority('ARTIST')")
+    public ResponseEntity<?> getArtistGenre(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(artistService.getArtistGenre(id), HttpStatus.OK);
+    }
+
 }

@@ -1,12 +1,12 @@
 package com.ftn.sbnz.service.controllers;
 
+import com.ftn.sbnz.model.dtos.GenreDTO;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.ftn.sbnz.service.services.GenreService;
 
@@ -38,6 +38,13 @@ public class GenreController {
     @GetMapping(value = "/find-similar-artists")
     public ResponseEntity<?> findSimilarArtists(){
         genreService.findSimilarArtists();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/genre")
+    @PreAuthorize("hasAuthority('ARTIST')")
+    public ResponseEntity<?> setArtistGenre(@PathVariable("id") Long id, GenreDTO genreDTO) {
+        genreService.setArtistGenre(id, genreDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

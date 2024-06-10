@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthenticationRequest } from 'src/app/models/AuthenticationRequest';
+import { jwtDecode }  from "jwt-decode";
 
 @Component({
   selector: 'app-login',
@@ -37,10 +38,34 @@ export class LoginComponent {
 
     this.authService.login(authenticationRequest).subscribe((response) => {
       alert("Successfully logged in!");
-      //todo: add router
+      const decoded: JwtPayload = jwtDecode(response.token);
+      localStorage.setItem('username', decoded.sub);
+      const role = decoded.role;
+      localStorage.setItem('role', role);
+      localStorage.setItem('id', decoded.id);
+      localStorage.setItem('token', response.token);
+      console.log(decoded.role);
+      if (role == 'REGULAR_USER'){
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          window.location.reload();
+        });
+        this.router.navigate(['profile-user']);
+      }
+      if (role == 'ARTIST'){
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          window.location.reload();
+        });
+        this.router.navigate(['profile-artist']);
+      }
     })
-
-    alert("Logged in!")
   }
 
+}
+
+export interface JwtPayload {
+  sub: string;
+  role: string;
+  id: string;
+  exp: number;
+  iat: number;
 }

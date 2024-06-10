@@ -1,6 +1,7 @@
 package com.ftn.sbnz.service.services.impl;
 
 import com.ftn.sbnz.model.BackwardModel;
+import com.ftn.sbnz.model.dtos.GenreDTO;
 import com.ftn.sbnz.model.models.Album;
 import com.ftn.sbnz.model.models.Artist;
 import com.ftn.sbnz.model.models.Genre;
@@ -78,6 +79,30 @@ public class GenreServiceImpl implements GenreService {
 
         kieSession.insert( "find-similar-artists" );
         kieSession.fireAllRules();
+    }
+
+    @Override
+    public Genre findGenreByName(String name) {
+        return genreRepository.findByGenre(name).orElse(null);
+    }
+
+    @Override
+    public void setArtistGenre(Long id, GenreDTO genre) {
+        Artist artist = artistService.findArtistById(id);
+        Genre foundGenre = findGenreByName(genre.getGenre());
+        if (foundGenre == null) {
+            Genre newGenre = Genre.builder()
+                    .genre(genre.getGenre())
+                    .build();
+            Genre savedGenre = save(newGenre);
+            artist.setGenre(savedGenre);
+        }
+        artist.setGenre(foundGenre);
+    }
+
+    @Override
+    public Genre save(Genre genre) {
+        return genreRepository.save(genre);
     }
 
     private KieSession createKieSessionWithData() {

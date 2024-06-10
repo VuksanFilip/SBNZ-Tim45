@@ -13,19 +13,19 @@ insert into REGULAR_USERS(id) values (3);
 insert into USER_PREFERENCES(user_id) values (3);
 
 --genres
-insert into GENRES(genre) values ('POP');
-insert into GENRES(genre) values ('ROCK');
-insert into GENRES(genre) values ('HIP HOP');
-insert into GENRES(genre) values ('ELECTRONIC');
-insert into GENRES(genre) values ('CLASSICAL');
-insert into GENRES(genre) values ('JAZZ');
-insert into GENRES(genre) values ('REGGAE');
-insert into GENRES(genre) values ('COUNTRY');
-insert into GENRES(genre) values ('METAL');
-insert into GENRES(genre) values ('INDIE');
-insert into GENRES(genre) values ('RNB');
+insert into GENRES(genre) values ('Pop');
+insert into GENRES(genre) values ('Rock');
+insert into GENRES(genre) values ('Hip hop');
+insert into GENRES(genre) values ('Electronic');
+insert into GENRES(genre) values ('Classical');
+insert into GENRES(genre) values ('Jazz');
+insert into GENRES(genre) values ('Reggae');
+insert into GENRES(genre) values ('Country');
+insert into GENRES(genre) values ('Metal');
+insert into GENRES(genre) values ('Indie');
+insert into GENRES(genre) values ('Rnb');
 insert into GENRES(genre) values ('EDM');
-insert into GENRES(genre) values ('TECHNO');
+insert into GENRES(genre) values ('Techno');
 
 --artists
 --pass: billie123

@@ -13,6 +13,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { ProfileArtistComponent } from './components/profile-artist/profile-artist.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { HttpClientModule } from '@angular/common/http';
     RegistrationComponent,
     FormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    NavbarComponent,
+    CommonModule,
+    ProfileUserComponent,
+    ProfileArtistComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -26,4 +26,15 @@ export class AuthService {
     return this.http.post<any>(environment.apiHost + 'auth/login', authenticationRequest, { headers });
   }
 
+  getRole(): any {
+    return localStorage.getItem('role')!; 
+  }
+
+  logout() {
+    localStorage.setItem('username', '');
+    localStorage.setItem('role', '');
+    localStorage.setItem('id', '');
+    localStorage.setItem('token', '');
+  }
+
 }
