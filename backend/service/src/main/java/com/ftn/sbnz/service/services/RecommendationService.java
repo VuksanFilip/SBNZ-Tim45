@@ -1,13 +1,11 @@
 package com.ftn.sbnz.service.services;
 
-import com.ftn.sbnz.model.dtos.UserDTO;
-import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
-//import com.ftn.sbnz.service.dtos.UserDTO;
+import com.ftn.sbnz.model.models.UserMood;
 
-import java.util.Set;
+import java.io.FileNotFoundException;
 
 public interface RecommendationService {
 
-    Set<RecommendedSongDTO> getRecommendations(UserDTO userDTO);
+    void getRecommendationForMood(Long userId, UserMood userMood) throws FileNotFoundException;
 
 }

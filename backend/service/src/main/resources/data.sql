@@ -26,6 +26,8 @@ insert into GENRES(genre) values ('Indie');
 insert into GENRES(genre) values ('Rnb');
 insert into GENRES(genre) values ('EDM');
 insert into GENRES(genre) values ('Techno');
+insert into GENRES(genre) values ('Soul');
+insert into GENRES(genre) values ('Ambient');
 
 --artists
 --pass: billie123
@@ -37,6 +39,36 @@ insert into ARTISTS(id, genre_id) values (5, 1);
 --pass: sabrina123
 insert into USERS(first_name, last_name, password, role, username) values ('Sabrina', 'Carpenter', '$2a$10$BbOjI5u6K0sctSFnlfiWLueW.xv1qP3RNS7slkI5iT0gYtzXTsP/i', 'ARTIST', 'sabrina.carpenter');
 insert into ARTISTS(id, genre_id) values (6, 1);
+--pass: pharrell123
+insert into USERS(first_name, last_name, password, role, username) values ('Pharrell', 'Williams', '$2a$10$uveldVPW97lKJ9yI1JJ9det/jDgjzjUTe6TdkOM/.Q0IpupXhIT0q', 'ARTIST', 'pharrell');
+insert into ARTISTS(id, genre_id) values (7, 14);
+--pass: adele123
+insert into USERS(first_name, last_name, password, role, username) values ('Adele', 'Adkins', '$2a$10$vRsFHq6gc9jmV70CT9qIL.HPurb6ng6qs8c6nK9u8lfRce4W1Yv82', 'ARTIST', 'adele');
+insert into ARTISTS(id, genre_id) values (8, 1);
+--pass: survivor123
+insert into USERS(first_name, last_name, password, role, username) values ('Survivor', '', '$2a$10$U1FzUnqMBXHHyAA0kGwjsulZYfwLxavZCxeaP/E4ebAJy2Z28Ebj6', 'ARTIST', 'survivor');
+insert into ARTISTS(id, genre_id) values (9, 2);
+--pass: marconi123
+insert into USERS(first_name, last_name, password, role, username) values ('Marconi', 'Union', '$2a$10$7YQCEHugD0tIdP002XUjpeO3KhSkooYCrTCSIl4ApYgdgczKCk3Ku', 'ARTIST', 'marconi.union');
+insert into ARTISTS(id, genre_id) values (10, 15);
+--pass: ed123
+insert into USERS(first_name, last_name, password, role, username) values ('Ed', 'Sheeran', '$2a$10$S0YHPuxCWC8G7Z8zs9h/p.g9ZJRBwJnl6IcwQErq5fx.GCBSbVSdy', 'ARTIST', 'ed.sheeran');
+insert into ARTISTS(id, genre_id) values (11, 1);
+--pass: eminem123
+insert into USERS(first_name, last_name, password, role, username) values ('Marshall Bruce', 'Mathers', '$2a$10$hNzhD3MHvABxZK3Dh0/5tuptujA3rua0/p0PbwukFlW23yp00jiQa', 'ARTIST', 'eminem');
+insert into ARTISTS(id, genre_id) values (12, 3);
+--pass: thebeatles123
+insert into USERS(first_name, last_name, password, role, username) values ('The', 'Beatles', '$2a$10$arB77fKSF5M38fo91QqSMOrRCLzsgz4j5UnIMUaYQwu6kdGT4UEEe', 'ARTIST', 'the.beatles');
+insert into ARTISTS(id, genre_id) values (13, 2);
+--pass: bruno123
+insert into USERS(first_name, last_name, password, role, username) values ('Bruno', 'Mars', '$2a$10$hjM2dHkw/tCu5ZR7NfEfu.UhjfZzK62h5e20zE.nuW9dRgq0UTNBi', 'ARTIST', 'bruno.mars');
+insert into ARTISTS(id, genre_id) values (14, 1);
+--pass: imaginedragons123
+insert into USERS(first_name, last_name, password, role, username) values ('Imagine', 'Dragons', '$2a$10$RHcMnwXnryERjEBTesER/OLrx25n74fyaLEJ2AMNL.M7mVGONwAhC', 'ARTIST', 'imagine.dragons');
+insert into ARTISTS(id, genre_id) values (15, 1);
+--pass: coldplay123
+insert into USERS(first_name, last_name, password, role, username) values ('Coldplay', '', '$2a$10$UHZ3pqtzxIQMIuVaUyfxTuXIzxC8ZVTyrFB6VaMbLk1I.rNcVLTxK', 'ARTIST', 'coldplay');
+insert into ARTISTS(id, genre_id) values (16, 2);
 
 --albums
 insert into ALBUMS(release_date, title, artist_id, genre_id) values ('2024-05-17', 'Hit Me Hard and Soft', 4, 1);
@@ -82,3 +114,14 @@ insert into SONGS(favorites_count, length,  listens_count, name, album_id, artis
 insert into SONGS(favorites_count, length,  listens_count, name, album_id, artist_id, genre_id) values (0, '2:57', 0, 'Skinny Dipping', 3, 6, 1);
 insert into SONGS(favorites_count, length,  listens_count, name, album_id, artist_id, genre_id) values (0, '3:08', 0, 'Bad for Business', 3, 6, 1);
 insert into SONGS(favorites_count, length,  listens_count, name, album_id, artist_id, genre_id) values (0, '3:08', 0, 'Decode', 3, 6, 1);
+
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '3:55', 0, 'Happy', 7, 14);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:45', 0, 'Someone Like You', 8, 1);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:04', 0, 'Eye of the Tiger', 9, 2);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '8:09', 0, 'Weightless', 10, 15);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:23', 0, 'Perfect', 11, 1);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '5:20', 0, 'Lose Yourself', 12, 3);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:03', 0, 'Let It Be', 13, 2);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:30', 0, 'Uptown Funk', 14, 1);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '3:12', 0, 'On Top of the World', 15, 1);
+insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:54', 0, 'Fix You', 16, 2);

@@ -37,4 +37,6 @@ public interface SongService {
 
     Recommendation recommendPopularSong(Song song);
 
+    List<Song> getAllSongs();
+
 }

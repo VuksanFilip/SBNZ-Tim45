@@ -8,4 +8,7 @@
     <kbase name="fwBase" packages="forward">
         <ksession name="fwKsession"/>
     </kbase>
+    <kbase name="tmplBase" packages="tmpl">
+        <ksession name="tmplKsession"/>
+    </kbase>
 </kmodule>
