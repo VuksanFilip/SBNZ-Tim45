@@ -1,16 +1,15 @@
 package com.ftn.sbnz.service.controllers;
 
+import com.ftn.sbnz.model.models.UserMood;
 import com.ftn.sbnz.service.dtos.RecommendedSongDTO;
 import com.ftn.sbnz.model.dtos.UserDTO;
 import com.ftn.sbnz.service.services.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -20,8 +19,10 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @PutMapping()
-    public ResponseEntity<Set<RecommendedSongDTO>> recommend(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(this.recommendationService.getRecommendations(userDTO), HttpStatus.OK);
+    @GetMapping(value = "/{userId}/mood")
+    public ResponseEntity<?> getRecommendationForMood(@PathVariable("userId") Long userId, @RequestBody UserMood userMood) throws FileNotFoundException {
+        recommendationService.getRecommendationForMood(userId, userMood);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

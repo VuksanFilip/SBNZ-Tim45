@@ -358,6 +358,11 @@ public class SongServiceImpl implements SongService {
                 .build();
     }
 
+    @Override
+    public List<Song> getAllSongs() {
+        return songRepository.findAll();
+    }
+
     private Event createEvent(EventType eventType, User user, Song song, Rating rating) {
         return Event.builder()
                 .executionTime(Date.from(Instant.now()))
