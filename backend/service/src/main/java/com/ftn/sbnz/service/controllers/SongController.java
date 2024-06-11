@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.controllers;
 
+import com.ftn.sbnz.model.dtos.FavoriteSongDTO;
 import com.ftn.sbnz.model.dtos.RatingDTO;
 import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.services.SongService;
@@ -45,6 +46,11 @@ public class SongController {
     @PutMapping(value = "/rating")
     public ResponseEntity<?> addRating(@RequestBody RatingDTO ratingDTO) {
         return new ResponseEntity<>(songService.addRating(ratingDTO), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/favorite")
+    public ResponseEntity<?> addFavoriteSong(@RequestBody FavoriteSongDTO favoritceSongDTO) {
+        return new ResponseEntity<>(songService.addToFavoriteSongs(favoritceSongDTO), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{userId}/new-music")

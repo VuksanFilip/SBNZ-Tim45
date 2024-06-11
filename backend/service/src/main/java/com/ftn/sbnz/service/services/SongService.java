@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.services;
 
+import com.ftn.sbnz.model.dtos.FavoriteSongDTO;
 import com.ftn.sbnz.model.dtos.RecommendationDTO;
 import com.ftn.sbnz.model.models.*;
 import com.ftn.sbnz.model.dtos.RatingDTO;
@@ -12,7 +13,7 @@ public interface SongService {
 
     Song findById(Long id);
 
-    Set<SongDTO> addToFavoriteSongs(Long userId, Long songId);
+    Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO);
 
     Set<SongDTO> addToListenedSongs(Long userId, Long songId);
 

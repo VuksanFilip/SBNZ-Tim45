@@ -13,14 +13,14 @@ public class UserController {
 
     private final SongService songService;
 
-    @PutMapping(value = "/{userId}/listened-songs/{songId}")
-    public ResponseEntity<?> addToListenedSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
-        return new ResponseEntity<>(songService.addToListenedSongs(userId, songId), HttpStatus.OK);
-    }
-
-    @PutMapping(value = "/{userId}/favorite-songs/{songId}")
-    public ResponseEntity<?> addToFavoriteSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
-        return new ResponseEntity<>(songService.addToFavoriteSongs(userId, songId), HttpStatus.OK);
-    }
+//    @PutMapping(value = "/{userId}/listened-songs/{songId}")
+//    public ResponseEntity<?> addToListenedSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
+//        return new ResponseEntity<>(songService.addToListenedSongs(userId, songId), HttpStatus.OK);
+//    }
+//
+//    @PutMapping(value = "/{userId}/favorite-songs/{songId}")
+//    public ResponseEntity<?> addToFavoriteSongs(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId){
+//        return new ResponseEntity<>(songService.addToFavoriteSongs(userId, songId), HttpStatus.OK);
+//    }
 
 }

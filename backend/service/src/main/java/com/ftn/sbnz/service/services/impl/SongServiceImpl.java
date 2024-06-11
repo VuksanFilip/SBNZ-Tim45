@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.services.impl;
 
+import com.ftn.sbnz.model.dtos.FavoriteSongDTO;
 import com.ftn.sbnz.model.dtos.RecommendationDTO;
 import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
@@ -49,7 +50,10 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Set<SongDTO> addToFavoriteSongs(Long userId, Long songId) {
+    public Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO) {
+        Long userId = favoriteSongDTO.getRatedById();
+        Long songId = favoriteSongDTO.getSongId();
+
         UserPreference userPreference = userPreferenceService.findByUserId(userId);
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
 
