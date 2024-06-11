@@ -1,11 +1,13 @@
 package com.ftn.sbnz.service.controllers;
 
+import com.ftn.sbnz.model.dtos.FavoriteSongDTO;
 import com.ftn.sbnz.model.dtos.RatingDTO;
 import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.services.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +42,12 @@ public class SongController {
     @PostMapping(value = "/rating")
     public ResponseEntity<?> addRating(@RequestBody RatingDTO ratingDTO) {
         return new ResponseEntity<>(songService.addRating(ratingDTO), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/favorite")
+    @PreAuthorize("hasAuthority('REGULAR_USER')")
+    public ResponseEntity<?> addFavoriteSong(@RequestBody FavoriteSongDTO favoritceSongDTO) {
+        return new ResponseEntity<>(songService.addToFavoriteSongs(favoritceSongDTO), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{userId}/new-music")

@@ -125,3 +125,21 @@ insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genr
 insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:30', 0, 'Uptown Funk', 14, 1);
 insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '3:12', 0, 'On Top of the World', 15, 1);
 insert into SONGS(favorites_count, length,  listens_count, name, artist_id, genre_id) values (0, '4:54', 0, 'Fix You', 16, 2);
+
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 1);
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 2);
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 3);
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 4);
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 5);
+insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 6);
+
+insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 1);
+insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 2);
+insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 3);
+insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 4);
+insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 5);
+-- insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 5);
+-- insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 6);
+-- insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 7);
+-- insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 8);
+
