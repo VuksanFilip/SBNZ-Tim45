@@ -22,8 +22,6 @@ public interface SongService {
 
     List<SongDTO> findAllByGenre(Long genreId);
 
-//    Set<SongDTO> rateSong(RatingDTO ratingDTO);
-
     List<Song> findAllSongs();
 
     Recommendation recommendSongsByGenre(int number, Genre genre, RegularUser user, String explanation);

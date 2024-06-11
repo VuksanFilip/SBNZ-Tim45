@@ -20,7 +20,7 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping
-    public ResponseEntity<List<ArtistDTO>> getArtists(){
+    public ResponseEntity<?> getArtists(){
         return new ResponseEntity<>(artistService.findAll(), HttpStatus.OK);
     }
 

@@ -9,6 +9,8 @@
     <div class="navbar-links" *ngIf="role === 'REGULAR_USER'">
       <a routerLink="/music-user">Music</a>
       <a routerLink="/recommendations">Recommendations</a>
+      <a routerLink="/favorite-songs">Favorite songs</a>
+      <a routerLink="/mood">Mood</a>
       <a routerLink="/profile-user">Profile</a>
       <a (click)="logout()">Logout</a>
     </div>
@@ -17,4 +19,4 @@
         <a routerLink="/profile-artist">Profile</a>
         <a (click)="logout()">Logout</a>
       </div>
-  </nav>
+</nav>

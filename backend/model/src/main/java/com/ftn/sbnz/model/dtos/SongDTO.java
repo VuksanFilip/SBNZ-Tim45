@@ -10,6 +10,8 @@ import lombok.*;
 @Builder
 public class SongDTO {
 
+    private Long id;
+
     private String name;
 
     private String artist;
@@ -22,14 +24,22 @@ public class SongDTO {
 
     private int favoritesCount;
 
+    private String length;
+
     public static SongDTO toSongDTO(Song song) {
+        String albumTitle = "";
+        if (song.getAlbum() != null) {
+            albumTitle = song.getAlbum().getTitle();
+        }
         return SongDTO.builder()
+                .id(song.getId())
                 .name(song.getName())
                 .artist(song.getArtist().getUsername())
-                .album(song.getAlbum().getTitle())
+                .album(albumTitle)
                 .genre(song.getGenre().getGenre())
                 .listensCount(song.getListensCount())
                 .favoritesCount(song.getFavoritesCount())
+                .length(song.getLength())
                 .build();
     }
 

@@ -1,0 +1,15 @@
+<ul class="list">
+    <li *ngFor="let artist of artists" class="list-item">
+        <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title id="title">{{ artist.username }}</mat-card-title>
+              <mat-card-subtitle><a (click)="openDialog()"><u>View facts</u></a></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Name: <b>{{ artist.firstName }}</b></p>
+              <div *ngIf="artist.lastName != ''"><p>Release date: <b>{{ artist.lastName }}</b></p></div>
+              <p>Genre: <b>{{ artist.genre }}</b></p>
+            </mat-card-content>
+          </mat-card>
+    </li>
+</ul>

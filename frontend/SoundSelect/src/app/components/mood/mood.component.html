@@ -1,0 +1,24 @@
+<mat-card class="login-container">
+    <mat-card-content>
+      <h2>Find perfect song for your current mood</h2>
+      <form>
+        <mat-form-field>
+          <mat-label>Current mood</mat-label>
+          <mat-select [(ngModel)]="userMood.currentMood" name="mood">
+              <mat-option value="Happy">Happy</mat-option>
+              <mat-option value="Sad">Sad</mat-option>
+              <mat-option value="Energetic">Energetic</mat-option>
+              <mat-option value="Relaxed">Relaxed</mat-option>
+              <mat-option value="Romantic">Romantic</mat-option>
+              <mat-option value="Motivated">Motivated</mat-option>
+              <mat-option value="Stressed">Stressed</mat-option>
+              <mat-option value="Excited">Excited</mat-option>
+              <mat-option value="Adventurous">Adventurous</mat-option>
+              <mat-option value="Reflective">Reflective</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="userMood.currentMood != ''"><p>I'm feeling {{userMood.currentMood}} right now!</p></div>
+        <button mat-raised-button (click)="getRecommendation()" style="background-color: #673AB7; color: #ffffff;">Get recommendation</button>
+      </form>
+    </mat-card-content>
+  </mat-card>

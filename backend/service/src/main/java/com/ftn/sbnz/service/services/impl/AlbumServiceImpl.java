@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,11 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public List<Album> findAllAlbums() {
         return albumRepository.findAll();
+    }
+
+    @Override
+    public List<AlbumDTO> findAllAlbumDTOs() {
+        return findAllAlbums().stream().map(AlbumDTO::toAlbumDTO).collect(Collectors.toList());
     }
 
     @Override
