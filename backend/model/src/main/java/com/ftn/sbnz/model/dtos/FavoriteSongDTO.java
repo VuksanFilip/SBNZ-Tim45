@@ -9,11 +9,7 @@ import lombok.*;
 @Builder
 public class FavoriteSongDTO {
 
-    private Long ratedById;
+    private Long favorizedById;
 
     private Long songId;
-
-    private int rating;
-
-    private String comment;
 }

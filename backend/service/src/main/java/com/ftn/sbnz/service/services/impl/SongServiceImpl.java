@@ -6,7 +6,6 @@ import com.ftn.sbnz.model.events.Event;
 import com.ftn.sbnz.model.events.EventType;
 import com.ftn.sbnz.model.models.*;
 import com.ftn.sbnz.model.dtos.RatingDTO;
-import com.ftn.sbnz.service.exceptions.BadRequestException;
 import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.exceptions.NotFoundException;
 import com.ftn.sbnz.service.repositories.EventRepository;
@@ -16,6 +15,7 @@ import com.ftn.sbnz.service.repositories.SongRepository;
 import com.ftn.sbnz.service.services.RegularUserService;
 import com.ftn.sbnz.service.services.SongService;
 import com.ftn.sbnz.service.services.UserPreferenceService;
+import com.ftn.sbnz.service.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -32,6 +32,8 @@ public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
 
     private final UserPreferenceService userPreferenceService;
+
+    private final UserService userService;
 
     private final RegularUserService regularUserService;
 
@@ -50,38 +52,80 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO) {
-        Long userId = favoriteSongDTO.getRatedById();
-        Long songId = favoriteSongDTO.getSongId();
-
-        UserPreference userPreference = userPreferenceService.findByUserId(userId);
+    public boolean isFavoriteSong(Song song, User user) {
+        UserPreference userPreference = userPreferenceService.findByUserId(user.getId());
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
 
-        Song song = findById(songId);
-
         for (Song favoriteSong : favoriteSongs) {
-            if (favoriteSong.getId().equals(songId)){
-                throw new BadRequestException(String.format("Song %s by %s is already in your favorites!", song.getName(), song.getArtist().getUsername()));
+            if (favoriteSong.getId().equals(song.getId())) {
+//                throw new BadRequestException(String.format("Song %s by %s is already in your favorites!", song.getName(), song.getArtist().getUsername()));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<Song> getListenedSongsByUserIdAndGenre(Long userId, Long genreId){
+        UserPreference userPreference = userPreferenceService.findByUserId(userId);
+        List<Song> songsByGenre = new ArrayList<>();
+        for(Song listenedSong: userPreference.getListenedSongs()){
+            if(listenedSong.getGenre().getId().equals(genreId)){
+                songsByGenre.add(listenedSong);
+            }
+        }
+        return songsByGenre;
+    }
+
+    @Override
+    public int getListenedSongsSizeByUserIdAndGenreId(Long userId, Long genreId) {
+        UserPreference userPreference = userPreferenceService.findByUserId(userId);
+        List<Song> songsByGenre = new ArrayList<>();
+        for(Song listenedSong: userPreference.getListenedSongs()){
+            if(listenedSong.getGenre().getId().equals(genreId)){
+                songsByGenre.add(listenedSong);
+            }
+        }
+        return songsByGenre.size();
+    }
+
+    @Override
+    public List<Song> removeListenedSongs(List<Song> songs, Long userId, Long genreId) {
+        List<Song> listenedSongs = getListenedSongsByUserIdAndGenre(userId, genreId);
+
+        for(Song listenedSong : listenedSongs) {
+            if (songs.contains(listenedSong)) {
+                songs.remove(listenedSong);
             }
         }
 
-        favoriteSongs.add(song);
-        userPreference.setFavoriteSongs(favoriteSongs);
-        userPreferenceService.save(userPreference);
+        return songs;
+    }
+
+    @Override
+    public Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO) {
+        Long userId = favoriteSongDTO.getFavorizedById();
+        Long songId = favoriteSongDTO.getSongId();
+
+        Song song = findById(songId);
+        User user = userService.findById(userId);
 
         Set<SongDTO> recommendations = new HashSet<>();
+
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
-
-        for(Song s: userPreference.getFavoriteSongs()){
-            System.out.println("Favorite song " + s.getName());
-        }
-        System.out.println("Song " + song.getName());
-
+        kieSession.setGlobal("songService", this);
+        kieSession.setGlobal("genreId", song.getGenre().getId());
+        kieSession.setGlobal("userId", user.getId());
+        kieSession.setGlobal("songId", song.getId());
         kieSession.setGlobal("recommendations", recommendations);
+        kieSession.setGlobal("firstRuleExecuted", Boolean.FALSE);
+        kieSession.setGlobal("secondRuleExecuted", Boolean.FALSE);
+
         kieSession.insert(song);
-        kieSession.insert(userPreference);
+        kieSession.insert(user);
         kieSession.fireAllRules();
         kieSession.dispose();
+
 
         return recommendations;
     }
@@ -136,6 +180,28 @@ public class SongServiceImpl implements SongService {
                 .map(SongDTO::toSongDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Song> findAllByGenreWithoutDTO(Long genreId) {
+        return songRepository.findAllByGenreId(genreId);
+    }
+
+    @Override
+    public List<Song> removeAlreadyListenedSongs(List<Song> songs, Long userId) {
+        UserPreference userPreference = this.userPreferenceService.findByUserId(userId);
+        List<Song> listenedSongs = userPreference.getListenedSongs();
+
+        for(Song song: songs){
+            for(Song listenedSong: listenedSongs){
+                if(song.getId().equals(listenedSong.getId())){
+                   songs.remove(song);
+                }
+            }
+        }
+
+        return songs;
+    }
+
 
     @Override
     public List<SongDTO> findAllByGenre(Long genreId) {

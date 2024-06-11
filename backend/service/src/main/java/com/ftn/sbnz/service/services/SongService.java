@@ -13,6 +13,14 @@ public interface SongService {
 
     Song findById(Long id);
 
+    boolean isFavoriteSong(Song song, User user);
+
+    List<Song> getListenedSongsByUserIdAndGenre(Long userId, Long genreId);
+
+    int getListenedSongsSizeByUserIdAndGenreId(Long userId, Long genreId);
+
+    List<Song> removeListenedSongs(List<Song> songs, Long userId, Long genreId);
+
     Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO);
 
     Set<SongDTO> addToListenedSongs(Long userId, Long songId);
@@ -20,6 +28,10 @@ public interface SongService {
     List<SongDTO> findAll();
 
     List<SongDTO> findAllByArtist(Long artistId);
+
+    List<Song> findAllByGenreWithoutDTO(Long genreId);
+
+    List<Song> removeAlreadyListenedSongs(List<Song> songs, Long userId);
 
     List<SongDTO> findAllByGenre(Long genreId);
 

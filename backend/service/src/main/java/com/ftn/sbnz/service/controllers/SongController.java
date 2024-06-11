@@ -7,6 +7,7 @@ import com.ftn.sbnz.service.services.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class SongController {
     }
 
     @PutMapping(value = "/favorite")
+    @PreAuthorize("hasAuthority('REGULAR_USER')")
     public ResponseEntity<?> addFavoriteSong(@RequestBody FavoriteSongDTO favoritceSongDTO) {
         return new ResponseEntity<>(songService.addToFavoriteSongs(favoritceSongDTO), HttpStatus.OK);
     }
