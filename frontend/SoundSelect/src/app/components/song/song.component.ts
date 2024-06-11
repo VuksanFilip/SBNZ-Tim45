@@ -55,7 +55,14 @@ export class SongComponent implements OnInit {
   }
 
   favorite(id: string) {
-    
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('id');
+    console.log(token);
+    this.songService.favoriteSong(userId!, id, token!).subscribe((response) => {
+      if (response.length != 0) {
+        alert("You have new song recommendations! Check Recommendations tab.")
+      }
+    })
   }
 
   openDialog(songId: string) {

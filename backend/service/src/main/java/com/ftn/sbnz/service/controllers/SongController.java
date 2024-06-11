@@ -44,10 +44,9 @@ public class SongController {
         return new ResponseEntity<>(songService.addRating(ratingDTO), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/favorite")
-    @PreAuthorize("hasAuthority('REGULAR_USER')")
-    public ResponseEntity<?> addFavoriteSong(@RequestBody FavoriteSongDTO favoritceSongDTO) {
-        return new ResponseEntity<>(songService.addToFavoriteSongs(favoritceSongDTO), HttpStatus.OK);
+    @PostMapping(value = "/{userId}/favorite/{songId}")
+    public ResponseEntity<?> addFavoriteSong(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId) {
+        return new ResponseEntity<>(songService.addToFavoriteSongs(userId, songId), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{userId}/new-music")

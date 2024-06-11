@@ -58,4 +58,13 @@ export class SongService {
     });
   }
 
+  favoriteSong(userId: string, songId: string, token: string): Observable<Recommendation[]> {
+    return this.http.post<any>(environment.apiHost + "songs/" + userId + "/favorite/" + songId, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    });
+  }
+
 }
