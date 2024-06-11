@@ -50,7 +50,7 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public Artist findArtistById(Long id) {
         return artistRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("No regular user with id %s.", id)));
+                .orElseThrow(() -> new NotFoundException(String.format("No artist with id %s.", id)));
     }
 
     @Override

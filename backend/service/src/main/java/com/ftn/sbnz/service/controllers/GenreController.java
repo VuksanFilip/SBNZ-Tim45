@@ -17,30 +17,6 @@ public class GenreController {
 
     private final GenreService genreService;
 
-    @GetMapping(value = "/basic-backward")
-    public ResponseEntity<?> basicBackward(){
-        genreService.basicBackward();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/find-artist-genre")
-    public ResponseEntity<?> findArtistGenre(){
-        genreService.findArtistGenre();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/find-album-genre")
-    public ResponseEntity<?> findAlbumGenre(){
-        genreService.findAlbumGenre();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/find-similar-artists")
-    public ResponseEntity<?> findSimilarArtists(){
-        genreService.findSimilarArtists();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PostMapping(value = "/{id}/genre")
     @PreAuthorize("hasAuthority('ARTIST')")
     public ResponseEntity<?> setArtistGenre(@PathVariable("id") Long id, GenreDTO genreDTO) {

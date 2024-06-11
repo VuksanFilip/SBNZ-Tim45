@@ -4,18 +4,11 @@ import com.ftn.sbnz.model.dtos.GenreDTO;
 import com.ftn.sbnz.model.models.Genre;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GenreService {
 
     List<Genre> findAllGenres();
-
-    void basicBackward();
-
-    void findArtistGenre();
-
-    void findAlbumGenre();
-
-    void findSimilarArtists();
 
     Genre findGenreByName(String name);
 

@@ -34,4 +34,9 @@ public class AlbumServiceImpl implements AlbumService {
     public List<Album> findAllAlbums() {
         return albumRepository.findAll();
     }
+
+    @Override
+    public Album findById(Long id) {
+        return albumRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("No album with id %s", id)));
+    }
 }

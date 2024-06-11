@@ -1,6 +1,12 @@
 package backward;
 
 import com.ftn.sbnz.model.BackwardModel;
+import com.ftn.sbnz.model.models.Artist;
+import com.ftn.sbnz.model.models.Album;
+import com.ftn.sbnz.model.models.Song;
+import java.util.Set;
+
+global Set<String> facts;
 
 query isConnected( String x, String y )
   BackwardModel( x, y; )
@@ -16,22 +22,41 @@ then
     System.out.println(x + ", " + y);
 end
 
-rule "Find genre of artist"
+rule "Find facts about artist"
 when
-    String( this == "find-artist-genre" )
-    isConnected( artist, album; )
+    String( this == "artist-facts" )
+    $artist: Artist($username: username)
+    isConnected( $username, album; )
     isConnected( album, song; )
     isConnected( song, genre; )
 then
-    System.out.println("Artist " + artist + " does " + genre + " genre.");
+    facts.add("Artist " + $username + " has album " + album);
+    facts.add("Artist " + $username + " has song " + song);
+    facts.add("Artist " + $username + " does genre " + genre);
 end
 
-rule "Fing genre of album"
+rule "Find facts about album"
 when
-    String( this == "find-album-genre" )
-    isConnected( artist, album; )
-    isConnected( album, song; )
+    String( this == "album-facts" )
+    $album: Album($title: title)
+    isConnected( artist, $title; )
+    isConnected( $title, song; )
     isConnected( song, genre; )
 then
-    System.out.println("Album " + album + " is of " + genre + " genre.");
+    facts.add("Album " + $title + " is by artist " + artist);
+    facts.add("Album " + $title + " has song " + song);
+    facts.add("Album " + $title + " is by genre " + genre);
+end
+
+rule "Find facts about song"
+when
+    String( this == "song-facts" )
+    song: Song($name: name)
+    isConnected( artist, album; )
+    isConnected( album, $name; )
+    isConnected( $name, genre; )
+then
+    facts.add("Song " + $name + " is by artist " + artist);
+    facts.add("Song " + $name + " is on album " + album);
+    facts.add("Song " + $name + " is by genre " + genre);
 end

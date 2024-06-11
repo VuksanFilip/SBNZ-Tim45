@@ -6,9 +6,12 @@ import com.ftn.sbnz.model.dtos.AlbumDTO;
 import java.util.List;
 
 public interface AlbumService {
+
     AlbumDTO findBySong(Long songId);
 
     AlbumDTO findByArtist(Long artistId);
 
     List<Album> findAllAlbums();
+
+    Album findById(Long id);
 }
