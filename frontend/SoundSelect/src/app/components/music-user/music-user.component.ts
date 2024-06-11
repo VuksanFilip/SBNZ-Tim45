@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { SongComponent } from '../song/song.component';
 import { AlbumComponent } from '../album/album.component';
 import { ArtistComponent } from '../artist/artist.component';
+import { SongService } from 'src/app/services/song/song.service';
 
 @Component({
   selector: 'app-music-user',
@@ -19,8 +20,19 @@ import { ArtistComponent } from '../artist/artist.component';
   imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatRadioModule, MatCardModule, FormsModule, RouterModule, MatTabsModule, SongComponent, AlbumComponent, ArtistComponent]
 })
 export class MusicUserComponent {
-  findNewMusic() {
 
+  constructor(private songService: SongService) {}
+
+  findNewMusic() {
+    const userId = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
+    this.songService.findNewMusic(userId!, token!).subscribe((response) => {
+      if (response.length != 0) {
+        alert("You have new song recommendations! Check Recommendations tab.")
+      } else {
+        alert("No popular music at the moment :(")
+      }
+    })
   }
 
 }

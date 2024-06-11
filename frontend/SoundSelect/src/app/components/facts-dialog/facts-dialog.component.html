@@ -1,5 +1,9 @@
-<h2 mat-dialog-title>Dialog with elements</h2>
-<mat-dialog-content>This dialog showcases the title, close, content and actions elements.</mat-dialog-content>
+<h2 mat-dialog-title>Facts about {{ data.title }}</h2>
+<mat-dialog-content>
+  <ng-container *ngFor="let fact of data.content">
+    <p>{{ fact }}</p>
+  </ng-container>
+</mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close style="background-color: #673AB7; color: #ffffff;">Close</button>
 </mat-dialog-actions>

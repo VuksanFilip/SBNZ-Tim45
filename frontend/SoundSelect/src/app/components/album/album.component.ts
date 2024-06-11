@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { Album } from 'src/app/models/Album';
 import { AlbumService } from 'src/app/services/album/album.service';
 import { FactsDialogComponent } from '../facts-dialog/facts-dialog.component';
+import { FactsService } from 'src/app/services/facts/facts.service';
 
 @Component({
   selector: 'app-album',
@@ -23,7 +24,7 @@ import { FactsDialogComponent } from '../facts-dialog/facts-dialog.component';
 export class AlbumComponent {
   albums: Album[] = [];
 
-  constructor(private albumService: AlbumService, public dialog: MatDialog) {}
+  constructor(private albumService: AlbumService, public dialog: MatDialog, private factsService: FactsService) {}
 
   ngOnInit() {
     const token = localStorage.getItem('token');
@@ -32,7 +33,16 @@ export class AlbumComponent {
     })
   }
 
-  openDialog() {
-    this.dialog.open(FactsDialogComponent);
+  openDialog(albumId: string) {
+    const token = localStorage.getItem('token');
+    this.factsService.getFactsAboutAlbum(albumId, token!).subscribe((response) => {
+      const data = {
+        title: "an Album",
+        content: response
+      };
+      const dialogRef = this.dialog.open(FactsDialogComponent, {
+        data: data
+      });
+    });
   }
 }

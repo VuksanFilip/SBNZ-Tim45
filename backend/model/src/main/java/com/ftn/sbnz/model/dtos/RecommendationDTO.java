@@ -15,13 +15,13 @@ public class RecommendationDTO {
 
     private String explanation;
 
-    private List<RecommendedSongDTO> recommendedSongs;
+    private List<SongDTO> recommendedSongs;
 
     public static RecommendationDTO toRecommendationDTO(Recommendation recommendation) {
         return RecommendationDTO.builder()
                 .explanation(recommendation.getExplanation())
                 .recommendedSongs(recommendation.getSongs().stream()
-                        .map(RecommendedSongDTO::toRecommendedSongDTO)
+                        .map(SongDTO::toSongDTO)
                         .collect(Collectors.toList()))
                 .build();
     }

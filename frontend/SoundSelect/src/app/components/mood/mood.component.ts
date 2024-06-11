@@ -8,9 +8,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { UserMood } from 'src/app/models/UserMood';
-import { User } from 'src/app/models/User';
+import { Song } from 'src/app/models/Song';
 import { CommonModule } from '@angular/common';
 import { RecommendationService } from 'src/app/services/recommendation/recommendation.service';
+import { Recommendation } from 'src/app/models/Recommendation';
 
 @Component({
   selector: 'app-mood',
@@ -24,6 +25,13 @@ export class MoodComponent {
     currentMood: ''
   }
 
+  recommendations: Recommendation[] = [];
+
+  showRecommendation: Recommendation = {
+    explanation: '',
+    recommendedSongs: []
+  };
+
   constructor(private recommendationService: RecommendationService) {}
 
   getRecommendation() {
@@ -31,6 +39,7 @@ export class MoodComponent {
     const userId = localStorage.getItem('id');
     this.recommendationService.getRecommendationForMood(userId!, this.userMood, token!).subscribe((response) => {
       console.log(response);
+      this.recommendations = response;
     })
   }
 

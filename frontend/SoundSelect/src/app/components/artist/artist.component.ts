@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { Artist } from 'src/app/models/Artist';
 import { ArtistService } from 'src/app/services/artist/artist.service';
 import { FactsDialogComponent } from '../facts-dialog/facts-dialog.component';
+import { FactsService } from 'src/app/services/facts/facts.service';
 
 @Component({
   selector: 'app-artist',
@@ -23,7 +24,7 @@ import { FactsDialogComponent } from '../facts-dialog/facts-dialog.component';
 export class ArtistComponent {
   artists: Artist[] = [];
 
-  constructor(private artistService: ArtistService, public dialog: MatDialog) {}
+  constructor(private artistService: ArtistService, public dialog: MatDialog, private factsService: FactsService) {}
 
   ngOnInit() {
     const token = localStorage.getItem('token');
@@ -32,8 +33,18 @@ export class ArtistComponent {
     })
   }
 
-  openDialog() {
-    this.dialog.open(FactsDialogComponent);
+
+  openDialog(artistId: string) {
+    const token = localStorage.getItem('token');
+    this.factsService.getFactsAboutArtist(artistId, token!).subscribe((response) => {
+      const data = {
+        title: "an Artist",
+        content: response
+      };
+      const dialogRef = this.dialog.open(FactsDialogComponent, {
+        data: data
+      });
+    });
   }
 
 }

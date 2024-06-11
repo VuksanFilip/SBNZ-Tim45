@@ -3,7 +3,7 @@
         <mat-card class="example-card">
             <mat-card-header>
               <mat-card-title id="title">{{ album.title }}</mat-card-title>
-              <mat-card-subtitle><a (click)="openDialog()"><u>View facts</u></a></mat-card-subtitle>
+              <mat-card-subtitle><a (click)="openDialog(album.id)"><u>View facts</u></a></mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               <p>Artist: <b>{{ album.artist }}</b></p>

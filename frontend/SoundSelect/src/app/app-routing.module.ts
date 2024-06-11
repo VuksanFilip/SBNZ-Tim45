@@ -8,6 +8,7 @@ import { MusicUserComponent } from './components/music-user/music-user.component
 import { MusicArtistComponent } from './components/music-artist/music-artist.component';
 import { MoodComponent } from './components/mood/mood.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
+import { FavoriteSongsComponent } from './components/favorite-songs/favorite-songs.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: "music-artist", component: MusicArtistComponent},
   {path: "mood", component: MoodComponent},
   {path: "recommendations", component: RecommendationsComponent},
+  {path: "favorite-songs", component: FavoriteSongsComponent}
 ];
 
 @NgModule({

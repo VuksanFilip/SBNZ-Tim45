@@ -18,8 +18,7 @@ public class RecommendationController {
 
     @PutMapping(value = "/{userId}/mood")
     public ResponseEntity<?> getRecommendationForMood(@PathVariable("userId") Long userId, @RequestBody UserMood userMood) throws FileNotFoundException {
-        recommendationService.getRecommendationForMood(userId, userMood);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(recommendationService.getRecommendationForMood(userId, userMood), HttpStatus.OK);
     }
 
 }

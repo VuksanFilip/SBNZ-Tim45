@@ -28,6 +28,8 @@ import { FactsDialogComponent } from './components/facts-dialog/facts-dialog.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { MoodComponent } from './components/mood/mood.component';
 import { MatSelectModule } from '@angular/material/select';
+import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.component';
+import { FavoriteSongsComponent } from './components/favorite-songs/favorite-songs.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { MatSelectModule } from '@angular/material/select';
     AlbumComponent,
     ArtistComponent,
     MoodComponent,
-    MatSelectModule
+    MatSelectModule,
+    RatingDialogComponent,
+    FavoriteSongsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

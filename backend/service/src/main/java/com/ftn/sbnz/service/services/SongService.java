@@ -38,4 +38,5 @@ public interface SongService {
 
     List<Song> getAllSongs();
 
+    List<SongDTO> getUsersFavoriteSongs(Long userId);
 }

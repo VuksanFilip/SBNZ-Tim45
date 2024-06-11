@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,27 +9,31 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { Song } from 'src/app/models/Song';
+import { FactsService } from 'src/app/services/facts/facts.service';
 import { SongService } from 'src/app/services/song/song.service';
 import { FactsDialogComponent } from '../facts-dialog/facts-dialog.component';
-import { FactsService } from 'src/app/services/facts/facts.service';
+import { MatDialog } from '@angular/material/dialog';
 import { RatingDialogComponent } from '../rating-dialog/rating-dialog.component';
 
 @Component({
-  selector: 'app-song',
-  templateUrl: './song.component.html',
-  styleUrls: ['./song.component.css'],
+  selector: 'app-favorite-songs',
+  templateUrl: './favorite-songs.component.html',
+  styleUrls: ['./favorite-songs.component.css'],
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatRadioModule, MatCardModule, FormsModule, RouterModule, MatTabsModule, CommonModule]
+  imports: [RatingDialogComponent, FactsDialogComponent, MatFormFieldModule, MatInputModule, MatIconModule, MatRadioModule, MatCardModule, FormsModule, RouterModule, MatTabsModule, CommonModule]
 })
-export class SongComponent implements OnInit { 
+export class FavoriteSongsComponent implements OnInit {
+
   songs: Song[] = [];
 
-  constructor(private songService: SongService, public dialog: MatDialog, private factsService: FactsService) {}
+  constructor(private songService: SongService, private factsService: FactsService, public dialog: MatDialog) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const token = localStorage.getItem('token');
-    this.songService.getAllSongs(token!).subscribe((response) => {
+    const userId = localStorage.getItem('id');
+    this.songService.getUsersFavoriteSongs(userId!, token!).subscribe((response) => {
       this.songs = response;
+      console.log(response);
     })
   }
 
@@ -53,11 +56,7 @@ export class SongComponent implements OnInit {
       data: data
     });
   }
-
-  favorite(id: string) {
-    
-  }
-
+  
   openDialog(songId: string) {
     const token = localStorage.getItem('token');
     this.factsService.getFactsAboutSong(songId, token!).subscribe((response) => {
@@ -70,5 +69,5 @@ export class SongComponent implements OnInit {
       });
     });
   }
-  
+
 }

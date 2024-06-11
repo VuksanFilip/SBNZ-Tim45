@@ -30,9 +30,9 @@ when
     isConnected( album, song; )
     isConnected( song, genre; )
 then
-    facts.add("Artist " + $username + " has album " + album);
-    facts.add("Artist " + $username + " has song " + song);
-    facts.add("Artist " + $username + " does genre " + genre);
+    facts.add("Artist " + $username + " has album " + album + ".");
+    facts.add("Artist " + $username + " has song " + song + ".");
+    facts.add("Artist " + $username + " does genre " + genre + ".");
 end
 
 rule "Find facts about album"
@@ -43,9 +43,9 @@ when
     isConnected( $title, song; )
     isConnected( song, genre; )
 then
-    facts.add("Album " + $title + " is by artist " + artist);
-    facts.add("Album " + $title + " has song " + song);
-    facts.add("Album " + $title + " is by genre " + genre);
+    facts.add("Album " + $title + " is by artist " + artist + ".");
+    facts.add("Album " + $title + " has song " + song + ".");
+    facts.add("Album " + $title + " is by genre " + genre + ".");
 end
 
 rule "Find facts about song"
@@ -56,7 +56,7 @@ when
     isConnected( album, $name; )
     isConnected( $name, genre; )
 then
-    facts.add("Song " + $name + " is by artist " + artist);
-    facts.add("Song " + $name + " is on album " + album);
-    facts.add("Song " + $name + " is by genre " + genre);
+    facts.add("Song " + $name + " is by artist " + artist + ".");
+    facts.add("Song " + $name + " is on album " + album + ".");
+    facts.add("Song " + $name + " is by genre " + genre + ".");
 end

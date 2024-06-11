@@ -10,6 +10,8 @@ import lombok.*;
 @Builder
 public class ArtistDTO {
 
+    private Long id;
+
     private String username;
 
     private String genre;
@@ -20,6 +22,7 @@ public class ArtistDTO {
 
     public static ArtistDTO toArtistDTO(Artist artist) {
         return ArtistDTO.builder()
+                .id(artist.getId())
                 .username(artist.getUsername())
                 .genre(artist.getGenre().getGenre())
                 .firstName(artist.getFirstName())

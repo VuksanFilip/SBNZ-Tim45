@@ -22,3 +22,17 @@
       </form>
     </mat-card-content>
   </mat-card>
+
+  <div *ngIf="recommendations.length != 0">
+    <mat-card class="login-container">
+      <mat-card-content>
+        <h2>Recommendation</h2>
+        <h4>{{recommendations[0].explanation}}</h4>
+        <p>Name: <b>{{ recommendations[0].recommendedSongs[0].name }}</b></p>
+        <p>Artist: <b>{{ recommendations[0].recommendedSongs[0].artist }}</b></p>
+        <p *ngIf="recommendations[0].recommendedSongs[0].album != ''">Album: <b>{{ recommendations[0].recommendedSongs[0].album }}</b></p>
+        <p>Genre: <b>{{ recommendations[0].recommendedSongs[0].genre }}</b></p>
+        <p>Duration: <b>{{ recommendations[0].recommendedSongs[0].length }}</b></p>
+      </mat-card-content>
+    </mat-card>
+  </div>
