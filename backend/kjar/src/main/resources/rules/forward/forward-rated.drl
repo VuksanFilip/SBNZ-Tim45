@@ -1,0 +1,7 @@
+package rules.forward;
+dialect  "mvel"
+
+rule "forward-rated"
+    when
+    then
+end

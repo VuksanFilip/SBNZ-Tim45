@@ -122,6 +122,7 @@ public class SongServiceImpl implements SongService {
         kieSession.setGlobal("secondRuleExecuted", Boolean.FALSE);
 
         kieSession.insert(song);
+        kieSession.insert("favorized");
         kieSession.insert(user);
         kieSession.fireAllRules();
         kieSession.dispose();
@@ -362,6 +363,7 @@ public class SongServiceImpl implements SongService {
 
         kieSession.fireAllRules();
         kieSession.dispose();
+        
 
         List<RecommendationDTO> recommendationDTOS = new ArrayList<>();
         if (!recommendations.isEmpty()) {

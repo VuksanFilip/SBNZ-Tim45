@@ -23,6 +23,7 @@ global Boolean secondRuleExecuted;
 rule "If its not favorized yet, get songs by that genre"
     salience 10
     when
+        String(this=="favorized")
         $user: User()
         $song: Song()
         eval(!songService.isFavoriteSong($song, $user))
@@ -58,12 +59,15 @@ rule "Choose random songs from not listened songs"
         retract($notListenedSongs);
 
         for(Song selectedSong : selectedSongs){
-            recommendations.add(new SongDTO(selectedSong.getName(),
+            recommendations.add(new SongDTO(
+                                    selectedSong.getId(),
+                                    selectedSong.getName(),
                                     selectedSong.getArtist().getUsername(),
                                     selectedSong.getAlbum().getTitle(),
                                     selectedSong.getGenre().getGenre(),
                                     selectedSong.getListensCount(),
-                                    selectedSong.getFavoritesCount()));
+                                    selectedSong.getFavoritesCount(),
+                                    selectedSong.getLength()));
         }
         insert(recommendations);
 
