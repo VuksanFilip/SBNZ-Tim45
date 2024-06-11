@@ -26,4 +26,10 @@ public class AlbumController {
     public ResponseEntity<AlbumDTO> getAlbumByArtist(@PathVariable("artistId") Long artistId){
         return new ResponseEntity<>(albumService.findByArtist(artistId), HttpStatus.OK);
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllAlbums(){
+        return new ResponseEntity<>(albumService.findAllAlbumDTOs(), HttpStatus.OK);
+    }
+
 }

@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Facts about {{ data.title }}</h2>
+<mat-dialog-content>
+  <ng-container *ngFor="let fact of data.content">
+    <p>{{ fact }}</p>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close style="background-color: #673AB7; color: #ffffff;">Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,16 @@
+<div id="title">
+    <h1>Music</h1>
+    <button mat-raised-button (click)="findNewMusic()" style="background-color: #673AB7; color: #ffffff;">Find new music</button>
+</div>
+<mat-tab-group>
+    <mat-tab label="Songs"> 
+        <app-song></app-song>
+    </mat-tab>
+    <mat-tab label="Albums">
+        <app-album></app-album>
+    </mat-tab>
+    <mat-tab label="Artists">
+        <app-artist></app-artist>
+    </mat-tab>
+</mat-tab-group>
+  

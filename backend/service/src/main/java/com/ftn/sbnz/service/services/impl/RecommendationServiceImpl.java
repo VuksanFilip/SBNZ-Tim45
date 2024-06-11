@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.services.impl;
 
+import com.ftn.sbnz.model.dtos.RecommendationDTO;
 import com.ftn.sbnz.model.models.Recommendation;
 import com.ftn.sbnz.model.models.RegularUser;
 import com.ftn.sbnz.model.models.Song;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -31,7 +34,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final SongService songService;
 
     @Override
-    public void getRecommendationForMood(Long userId, UserMood userMood) throws FileNotFoundException {
+    public List<RecommendationDTO> getRecommendationForMood(Long userId, UserMood userMood) throws FileNotFoundException {
         RegularUser regularUser = regularUserService.findRegularUserById(userId);
         InputStream templateMoodRecommendations = new FileInputStream("D:/git/SBNZ-Tim45/backend/kjar/src/main/resources/rules/template/mood-recommendations-template.drt");
 
@@ -67,6 +70,12 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         kieSession.fireAllRules();
         kieSession.dispose();
+
+        List<RecommendationDTO> recommendationDTOS = new ArrayList<>();
+        for (Recommendation r : recommendations) {
+            recommendationDTOS.add(RecommendationDTO.toRecommendationDTO(r));
+        }
+        return recommendationDTOS;
     }
 
 }

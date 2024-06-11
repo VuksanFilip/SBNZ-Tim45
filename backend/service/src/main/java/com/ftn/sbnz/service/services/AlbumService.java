@@ -13,5 +13,7 @@ public interface AlbumService {
 
     List<Album> findAllAlbums();
 
+    List<AlbumDTO> findAllAlbumDTOs();
+
     Album findById(Long id);
 }

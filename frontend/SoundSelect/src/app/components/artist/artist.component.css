@@ -1,0 +1,48 @@
+.list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .list-item {
+    margin-bottom: 16px;
+  }
+  
+  .example-card {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mat-card-header,
+  .mat-card-content,
+  .mat-card-actions {
+    text-align: center;
+  }
+
+  button {
+    margin-left: auto;
+    margin-right: 10px;
+    display: block;
+    padding: 10px;
+    background-color: #673AB7;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.custom-icon-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-icon-button mat-icon {
+  font-size: 16px;
+  margin-top: 4px;
+}

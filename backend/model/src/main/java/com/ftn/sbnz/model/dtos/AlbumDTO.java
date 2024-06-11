@@ -3,7 +3,7 @@ package com.ftn.sbnz.model.dtos;
 import com.ftn.sbnz.model.models.Album;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 @Builder
 public class AlbumDTO {
 
+    private Long id;
+
     private String title;
 
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     private String genre;
 
@@ -26,11 +28,12 @@ public class AlbumDTO {
 
     public static AlbumDTO toAlbumDTO(Album album) {
         return AlbumDTO.builder()
+                .id(album.getId())
                 .title(album.getTitle())
-//                .releaseDate(album.getReleaseDate())
+                .releaseDate(album.getReleaseDate())
                 .genre(album.getGenre().getGenre())
                 .artist(album.getArtist().getUsername())
-                .songs(album.getSongs().stream().map(song -> SongDTO.toSongDTO(song)).collect(Collectors.toList()))
+                .songs(album.getSongs().stream().map(SongDTO::toSongDTO).collect(Collectors.toList()))
                 .build();
     }
 

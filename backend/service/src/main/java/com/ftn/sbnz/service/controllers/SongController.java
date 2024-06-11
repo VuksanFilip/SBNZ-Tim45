@@ -34,17 +34,12 @@ public class SongController {
         return new ResponseEntity<>(songService.findAllByGenre(genreId), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/rating")
-//    public ResponseEntity<?> rateSong(@RequestBody RatingDTO ratingDTO){
-//        return new ResponseEntity<>(songService.rateSong(ratingDTO), HttpStatus.OK);
-//    }
-
-    @PutMapping(value = "/{userId}/listen/{songId}")
+    @GetMapping(value = "/{userId}/listen/{songId}")
     public ResponseEntity<?> listenToSong(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId) {
         return new ResponseEntity<>(songService.listenToSong(userId, songId), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/rating")
+    @PostMapping(value = "/rating")
     public ResponseEntity<?> addRating(@RequestBody RatingDTO ratingDTO) {
         return new ResponseEntity<>(songService.addRating(ratingDTO), HttpStatus.OK);
     }
@@ -58,6 +53,11 @@ public class SongController {
     @GetMapping(value = "/{userId}/new-music")
     public ResponseEntity<?> findNewMusic(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(songService.findNewMusic(userId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{userId}/favorite-songs")
+    public ResponseEntity<?> getUsersFavoriteSongs(@PathVariable("userId") Long userId) {
+        return new ResponseEntity<>(songService.getUsersFavoriteSongs(userId), HttpStatus.OK);
     }
 
 }

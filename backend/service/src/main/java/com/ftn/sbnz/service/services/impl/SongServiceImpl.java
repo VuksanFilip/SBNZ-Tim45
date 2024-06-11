@@ -210,32 +210,6 @@ public class SongServiceImpl implements SongService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public Set<SongDTO> rateSong(RatingDTO ratingDTO) {
-//        User user = userService.findById(ratingDTO.getRatedById());
-//        UserPreference userPreference = userPreferenceService.findByUserId(user.getId());
-//        List<Song> ratedSongs = userPreference.getRatedSongs();
-//        Song song = findById(ratingDTO.getSongId());
-//
-//        Rating rating = Rating.builder()
-//                .ratedBy(user)
-//                .song(song)
-//                .rating(ratingDTO.getRating())
-//                .comment(ratingDTO.getComment())
-//                .build();
-//
-//        for (Song s : ratedSongs) {
-//            if (s.getId().equals(song.getId())){
-//                throw new BadRequestException(String.format("Song %s by %s is already rated!", song.getName(), song.getArtist().getUsername()));
-//            }
-//        }
-//
-//        ratingRepository.save(rating);
-//        ratedSongs.add(song);
-//        userPreference.setRatedSongs(ratedSongs);
-//        userPreferenceService.save(userPreference);
-//
-//        Set<SongDTO> recommendations = new HashSet<>();
 //        KieSession kieSession = kieContainer.newKieSession("fwKsession");
 //
 //
@@ -245,9 +219,7 @@ public class SongServiceImpl implements SongService {
 //        kieSession.insert(userPreference);
 //        kieSession.fireAllRules();
 //        kieSession.dispose();
-//
-//        return recommendations;
-//    }
+
 
     @Override
     public List<Song> findAllSongs() {
@@ -448,6 +420,14 @@ public class SongServiceImpl implements SongService {
     @Override
     public List<Song> getAllSongs() {
         return songRepository.findAll();
+    }
+
+    @Override
+    public List<SongDTO> getUsersFavoriteSongs(Long userId) {
+        RegularUser user = regularUserService.findRegularUserById(userId);
+        return user.getPreference().getFavoriteSongs().stream()
+                .map(SongDTO::toSongDTO)
+                .collect(Collectors.toList());
     }
 
     private Event createEvent(EventType eventType, RegularUser user, Song song, Rating rating) {
