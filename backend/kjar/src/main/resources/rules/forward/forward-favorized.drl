@@ -4,16 +4,18 @@ import java.util.Set;
 import java.util.List;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.ListenedSongsFact
-import com.ftn.sbnz.model.models.FactOne
-import com.ftn.sbnz.model.models.FactTwo
-import com.ftn.sbnz.model.dtos.SongDTO;
-import com.ftn.sbnz.service.services.SongService
+import com.ftn.sbnz.model.models.ListenedSongsFact;
+import com.ftn.sbnz.model.models.FactOne;
+import com.ftn.sbnz.model.models.FactTwo;
+import com.ftn.sbnz.model.dtos.RecommendationDTO;
+import com.ftn.sbnz.service.services.SongService;
 import java.util.Collections;
+import com.ftn.sbnz.model.dtos.SongDTO;
+import java.util.ArrayList;
 
 
 global SongService songService;
-global Set<SongDTO> recommendations;
+global Set<RecommendationDTO> recommendations;
 global Long genreId;
 global Long userId;
 global Long songId;
@@ -58,8 +60,9 @@ rule "Choose random songs from not listened songs"
 
         retract($notListenedSongs);
 
+        List<SongDTO> recommendedSongs = new ArrayList<>();
         for(Song selectedSong : selectedSongs){
-            recommendations.add(new SongDTO(
+            recommendedSongs.add(new SongDTO(
                                     selectedSong.getId(),
                                     selectedSong.getName(),
                                     selectedSong.getArtist().getUsername(),
@@ -69,6 +72,10 @@ rule "Choose random songs from not listened songs"
                                     selectedSong.getFavoritesCount(),
                                     selectedSong.getLength()));
         }
+        RecommendationDTO recommendation = RecommendationDTO.builder()
+                    .explanation("You added song to favorite songs!")
+                    .recommendedSongs(recommendedSongs)
+                    .build();
+        recommendations.add(recommendation);
         insert(recommendations);
-
 end
