@@ -66,6 +66,21 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
+    public boolean isRatedSong(Song song, User user) {
+        UserPreference userPreference = userPreferenceService.findByUserId(user.getId());
+        List<Song> ratedSongs = userPreference.getRatedSongs();
+        ratedSongs.remove(song);
+
+        for (Song ratedSong : ratedSongs) {
+            System.out.println(ratedSong.getName());
+            if (ratedSong.getId().equals(song.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public List<Song> getListenedSongsByUserIdAndGenre(Long userId, Long genreId){
         UserPreference userPreference = userPreferenceService.findByUserId(userId);
         List<Song> songsByGenre = new ArrayList<>();
@@ -332,8 +347,11 @@ public class SongServiceImpl implements SongService {
     public List<RecommendationDTO> addRating(RatingDTO ratingDTO) {
         Set<Recommendation> recommendations = new HashSet<>();
         RegularUser user = regularUserService.findRegularUserById(ratingDTO.getRatedById());
+        User simpleUser = userService.findById(ratingDTO.getRatedById());
+        System.out.println("REGULAR USER ID" + user.getId());
         UserPreference userPreference = user.getPreference();
         Song ratedSong = findById(ratingDTO.getSongId());
+        System.out.println("SONG ID" + ratedSong.getId());
         List<Song> ratedSongs = userPreference.getRatedSongs();
         ratedSongs.add(ratedSong);
         userPreferenceService.save(userPreference);
@@ -363,6 +381,21 @@ public class SongServiceImpl implements SongService {
 
         kieSession.fireAllRules();
         kieSession.dispose();
+
+        KieSession newKieSession = kieContainer.newKieSession("fwKsession");
+        newKieSession.setGlobal("songService", this);
+        newKieSession.setGlobal("genreId", ratedSong.getGenre().getId());
+        newKieSession.setGlobal("userId", user.getId());
+        newKieSession.setGlobal("songId", ratedSong.getId());
+        newKieSession.setGlobal("recommendations", recommendations);
+        newKieSession.setGlobal("firstRuleExecuted", Boolean.FALSE);
+        newKieSession.setGlobal("secondRuleExecuted", Boolean.FALSE);
+
+        newKieSession.insert(ratedSong);
+        newKieSession.insert("rated");
+        newKieSession.insert(simpleUser);
+        newKieSession.fireAllRules();
+        newKieSession.dispose();
         
 
         List<RecommendationDTO> recommendationDTOS = new ArrayList<>();

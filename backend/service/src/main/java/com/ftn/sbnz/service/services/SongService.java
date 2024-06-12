@@ -15,6 +15,8 @@ public interface SongService {
 
     boolean isFavoriteSong(Song song, User user);
 
+    boolean isRatedSong(Song song, User user);
+
     List<Song> getListenedSongsByUserIdAndGenre(Long userId, Long genreId);
 
     int getListenedSongsSizeByUserIdAndGenreId(Long userId, Long genreId);

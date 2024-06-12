@@ -1,7 +1,74 @@
-package rules.forward;
-dialect  "mvel"
+package forward;
 
-rule "forward-rated"
+import java.util.Set;
+import java.util.List;
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.models.ListenedSongsFact
+import com.ftn.sbnz.model.models.FactOne
+import com.ftn.sbnz.model.models.FactTwo
+import com.ftn.sbnz.model.dtos.SongDTO;
+import com.ftn.sbnz.service.services.SongService
+import java.util.Collections;
+
+
+global SongService songService;
+global Set<SongDTO> recommendations;
+global Long genreId;
+global Long userId;
+global Long songId;
+global Boolean firstRuleExecuted;
+global Boolean secondRuleExecuted;
+
+rule "If its not rated yet, get songs by that genre"
+    salience 10
     when
+        String(this=="rated")
+        $user: User()
+        $song: Song()
+        eval(!songService.isRatedSong($song, $user))
     then
+        List<Song> songsByGenre = songService.findAllByGenreWithoutDTO(genreId);
+        System.out.println("Fact 1 size: " + songsByGenre.size());
+        insertLogical(new FactOne(songsByGenre));
 end
+
+rule "Remove listened songs by genre for rating"
+    salience 5
+    when
+        $songsByGenre: FactOne()
+        exists(User())
+        eval(songService.getListenedSongsSizeByUserIdAndGenreId(userId, genreId) > 3)
+    then
+        List<Song> notListenedSongs = songService.removeListenedSongs($songsByGenre.getSongs(), userId, genreId);
+        System.out.println("Fact 2 size: " + notListenedSongs.size());
+        retract($songsByGenre);
+        insertLogical(new FactTwo(notListenedSongs));
+end
+
+//rule "Choose random songs from not listened songs for rating"
+//    salience 15
+//    when
+//        $notListenedSongs: FactTwo()
+//        eval($notListenedSongs.getSongs().size() > 3)
+//    then
+//        Collections.shuffle($notListenedSongs.getSongs());
+//        List<Song> selectedSongs = $notListenedSongs.getSongs().subList(0, Math.min(3, $notListenedSongs.getSongs().size())); // Odabir prvih 3 pesme, ili manje ako ih ima manje od 3
+//        System.out.println("Fact 3 size: " + selectedSongs.size());
+
+//        retract($notListenedSongs);
+//
+//        for(Song selectedSong : selectedSongs){
+//            recommendations.add(new SongDTO(
+//                                    selectedSong.getId(),
+//                                    selectedSong.getName(),
+//                                    selectedSong.getArtist().getUsername(),
+//                                    selectedSong.getAlbum().getTitle(),
+//                                    selectedSong.getGenre().getGenre(),
+//                                    selectedSong.getListensCount(),
+//                                    selectedSong.getFavoritesCount(),
+//                                    selectedSong.getLength()));
+//        }
+//        insert(recommendations);
+//
+//end

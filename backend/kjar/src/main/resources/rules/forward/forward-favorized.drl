@@ -33,9 +33,10 @@ rule "If its not favorized yet, get songs by that genre"
         insertLogical(new FactOne(songsByGenre));
 end
 
-rule "Remove listened songs by genre"
+rule "Remove listened songs by genre for favorizing"
     salience 5
     when
+        String(this=="favorized")
         $songsByGenre: FactOne()
         exists(User())
         eval(songService.getListenedSongsSizeByUserIdAndGenreId(userId, genreId) > 3)
@@ -46,9 +47,10 @@ rule "Remove listened songs by genre"
         insertLogical(new FactTwo(notListenedSongs));
 end
 
-rule "Choose random songs from not listened songs"
+rule "Choose random songs from not listened songs for favorizing"
     salience 15
     when
+        String(this=="favorized")
         $notListenedSongs: FactTwo()
         eval($notListenedSongs.getSongs().size() > 3)
     then

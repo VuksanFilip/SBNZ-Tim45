@@ -133,6 +133,13 @@ insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 4);
 insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 5);
 insert into FAVORITE_SONGS(user_preference_id, song_id) values (1, 6);
 
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 1);
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 2);
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 3);
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 4);
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 5);
+insert into RATED_SONGS(user_preference_id, song_id) values (1, 6);
+
 insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 1);
 insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 2);
 insert into LISTENED_SONGS(user_preference_id, song_id) values (1, 3);
