@@ -107,7 +107,7 @@ public class SongServiceImpl implements SongService {
         Song song = findById(songId);
         User user = userService.findById(userId);
 
-        Set<RecommendationDTO> recommendations = new HashSet<>();
+        Set<Recommendation> recommendations = new HashSet<>();
 
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
         kieSession.setGlobal("songService", this);
@@ -124,7 +124,15 @@ public class SongServiceImpl implements SongService {
         kieSession.fireAllRules();
         kieSession.dispose();
 
-        return recommendations;
+        Set<RecommendationDTO> recommendationDTOS = new HashSet<>();
+        RegularUser regularUser = regularUserService.findRegularUserById(userId);
+        for (Recommendation r : recommendations) {
+            r.setUser(regularUser);
+            recommendationRepository.save(r);
+            recommendationDTOS.add(RecommendationDTO.toRecommendationDTO(r));
+        }
+
+        return recommendationDTOS;
     }
 
     @Override

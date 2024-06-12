@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.List;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
+import com.ftn.sbnz.model.models.Recommendation;
 import com.ftn.sbnz.model.models.ListenedSongsFact;
 import com.ftn.sbnz.model.models.FactOne;
 import com.ftn.sbnz.model.models.FactTwo;
@@ -12,10 +13,12 @@ import com.ftn.sbnz.service.services.SongService;
 import java.util.Collections;
 import com.ftn.sbnz.model.dtos.SongDTO;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 global SongService songService;
-global Set<RecommendationDTO> recommendations;
+//global Set<RecommendationDTO> recommendations;
+global Set<Recommendation> recommendations;
 global Long genreId;
 global Long userId;
 global Long songId;
@@ -60,22 +63,14 @@ rule "Choose random songs from not listened songs"
 
         retract($notListenedSongs);
 
-        List<SongDTO> recommendedSongs = new ArrayList<>();
-        for(Song selectedSong : selectedSongs){
-            recommendedSongs.add(new SongDTO(
-                                    selectedSong.getId(),
-                                    selectedSong.getName(),
-                                    selectedSong.getArtist().getUsername(),
-                                    selectedSong.getAlbum().getTitle(),
-                                    selectedSong.getGenre().getGenre(),
-                                    selectedSong.getListensCount(),
-                                    selectedSong.getFavoritesCount(),
-                                    selectedSong.getLength()));
+        Set<Song> recommendedSongs = new HashSet<>();
+        for (Song s : selectedSongs) {
+            recommendedSongs.add(s);
         }
-        RecommendationDTO recommendation = RecommendationDTO.builder()
-                    .explanation("You added song to favorite songs!")
-                    .recommendedSongs(recommendedSongs)
-                    .build();
+        Recommendation recommendation = Recommendation.builder()
+                        .explanation("You added song to favorite songs!")
+                        .songs(recommendedSongs)
+                        .build();
         recommendations.add(recommendation);
         insert(recommendations);
 end
