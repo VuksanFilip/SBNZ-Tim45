@@ -4,16 +4,21 @@ import java.util.Set;
 import java.util.List;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.User;
-import com.ftn.sbnz.model.models.ListenedSongsFact
-import com.ftn.sbnz.model.models.FactOne
-import com.ftn.sbnz.model.models.FactTwo
-import com.ftn.sbnz.model.dtos.SongDTO;
-import com.ftn.sbnz.service.services.SongService
+import com.ftn.sbnz.model.models.Recommendation;
+import com.ftn.sbnz.model.models.ListenedSongsFact;
+import com.ftn.sbnz.model.models.FactOne;
+import com.ftn.sbnz.model.models.FactTwo;
+import com.ftn.sbnz.model.dtos.RecommendationDTO;
+import com.ftn.sbnz.service.services.SongService;
 import java.util.Collections;
+import com.ftn.sbnz.model.dtos.SongDTO;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 
 global SongService songService;
-global Set<SongDTO> recommendations;
+//global Set<RecommendationDTO> recommendations;
+global Set<Recommendation> recommendations;
 global Long genreId;
 global Long userId;
 global Long songId;
@@ -60,17 +65,14 @@ rule "Choose random songs from not listened songs for favorizing"
 
         retract($notListenedSongs);
 
-        for(Song selectedSong : selectedSongs){
-            recommendations.add(new SongDTO(
-                                    selectedSong.getId(),
-                                    selectedSong.getName(),
-                                    selectedSong.getArtist().getUsername(),
-                                    selectedSong.getAlbum().getTitle(),
-                                    selectedSong.getGenre().getGenre(),
-                                    selectedSong.getListensCount(),
-                                    selectedSong.getFavoritesCount(),
-                                    selectedSong.getLength()));
+        Set<Song> recommendedSongs = new HashSet<>();
+        for (Song s : selectedSongs) {
+            recommendedSongs.add(s);
         }
+        Recommendation recommendation = Recommendation.builder()
+                        .explanation("You added song to favorite songs!")
+                        .songs(recommendedSongs)
+                        .build();
+        recommendations.add(recommendation);
         insert(recommendations);
-
 end

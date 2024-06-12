@@ -23,7 +23,7 @@ public interface SongService {
 
     List<Song> removeListenedSongs(List<Song> songs, Long userId, Long genreId);
 
-    Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO);
+    Set<RecommendationDTO> addToFavoriteSongs(Long userId, Long songId);
 
     Set<SongDTO> addToListenedSongs(Long userId, Long songId);
 

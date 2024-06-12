@@ -118,14 +118,11 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Set<SongDTO> addToFavoriteSongs(FavoriteSongDTO favoriteSongDTO) {
-        Long userId = favoriteSongDTO.getFavorizedById();
-        Long songId = favoriteSongDTO.getSongId();
-
+    public Set<RecommendationDTO> addToFavoriteSongs(Long userId, Long songId) {
         Song song = findById(songId);
         User user = userService.findById(userId);
 
-        Set<SongDTO> recommendations = new HashSet<>();
+        Set<Recommendation> recommendations = new HashSet<>();
 
         KieSession kieSession = kieContainer.newKieSession("fwKsession");
         kieSession.setGlobal("songService", this);
@@ -142,8 +139,15 @@ public class SongServiceImpl implements SongService {
         kieSession.fireAllRules();
         kieSession.dispose();
 
+        Set<RecommendationDTO> recommendationDTOS = new HashSet<>();
+        RegularUser regularUser = regularUserService.findRegularUserById(userId);
+        for (Recommendation r : recommendations) {
+            r.setUser(regularUser);
+            recommendationRepository.save(r);
+            recommendationDTOS.add(RecommendationDTO.toRecommendationDTO(r));
+        }
 
-        return recommendations;
+        return recommendationDTOS;
     }
 
     @Override

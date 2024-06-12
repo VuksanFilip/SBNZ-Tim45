@@ -5,6 +5,7 @@ import com.ftn.sbnz.model.models.Recommendation;
 import com.ftn.sbnz.model.models.RegularUser;
 import com.ftn.sbnz.model.models.Song;
 import com.ftn.sbnz.model.models.UserMood;
+import com.ftn.sbnz.service.repositories.RecommendationRepository;
 import com.ftn.sbnz.service.services.RecommendationService;
 import com.ftn.sbnz.service.services.SongService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final RegularUserServiceImpl regularUserService;
 
     private final SongService songService;
+
+    private final RecommendationRepository recommendationRepository;
 
     @Override
     public List<RecommendationDTO> getRecommendationForMood(Long userId, UserMood userMood) throws FileNotFoundException {
@@ -73,6 +76,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         List<RecommendationDTO> recommendationDTOS = new ArrayList<>();
         for (Recommendation r : recommendations) {
+            recommendationRepository.save(r);
             recommendationDTOS.add(RecommendationDTO.toRecommendationDTO(r));
         }
         return recommendationDTOS;
