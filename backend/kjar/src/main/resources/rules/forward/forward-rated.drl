@@ -9,7 +9,9 @@ import com.ftn.sbnz.model.models.FactOne
 import com.ftn.sbnz.model.models.FactTwo
 import com.ftn.sbnz.model.dtos.SongDTO;
 import com.ftn.sbnz.service.services.SongService
-import java.util.Collections;
+import java.util.Collections
+import java.util.HashSet
+import com.ftn.sbnz.model.models.Recommendation;
 
 
 global SongService songService;
@@ -37,6 +39,7 @@ rule "Remove listened songs by genre for rating"
     salience 5
     when
         $songsByGenre: FactOne()
+        $song: Song()
         exists(User())
         eval(songService.getListenedSongsSizeByUserIdAndGenreId(userId, genreId) > 3)
     then
@@ -46,29 +49,27 @@ rule "Remove listened songs by genre for rating"
         insertLogical(new FactTwo(notListenedSongs));
 end
 
-//rule "Choose random songs from not listened songs for rating"
-//    salience 15
-//    when
-//        $notListenedSongs: FactTwo()
-//        eval($notListenedSongs.getSongs().size() > 3)
-//    then
-//        Collections.shuffle($notListenedSongs.getSongs());
-//        List<Song> selectedSongs = $notListenedSongs.getSongs().subList(0, Math.min(3, $notListenedSongs.getSongs().size())); // Odabir prvih 3 pesme, ili manje ako ih ima manje od 3
-//        System.out.println("Fact 3 size: " + selectedSongs.size());
+rule "Choose random songs from not listened songs for rating"
+    salience 15
+    when
+        $notListenedSongs: FactTwo()
+        eval($notListenedSongs.getSongs().size() > 3)
+    then
+        Collections.shuffle($notListenedSongs.getSongs());
+        List<Song> selectedSongs = $notListenedSongs.getSongs().subList(0, Math.min(3, $notListenedSongs.getSongs().size())); // Odabir prvih 3 pesme, ili manje ako ih ima manje od 3
+        System.out.println("Fact 3 size: " + selectedSongs.size());
 
-//        retract($notListenedSongs);
-//
-//        for(Song selectedSong : selectedSongs){
-//            recommendations.add(new SongDTO(
-//                                    selectedSong.getId(),
-//                                    selectedSong.getName(),
-//                                    selectedSong.getArtist().getUsername(),
-//                                    selectedSong.getAlbum().getTitle(),
-//                                    selectedSong.getGenre().getGenre(),
-//                                    selectedSong.getListensCount(),
-//                                    selectedSong.getFavoritesCount(),
-//                                    selectedSong.getLength()));
-//        }
-//        insert(recommendations);
-//
-//end
+        retract($notListenedSongs);
+
+        Set<Song> recommendedSongs = new HashSet<>();
+        for (Song s : selectedSongs) {
+            recommendedSongs.add(s);
+        }
+        Recommendation recommendation = Recommendation.builder()
+                        .explanation("You added song to favorite songs!")
+                        .songs(recommendedSongs)
+                        .build();
+        recommendations.add(recommendation);
+        insert(recommendations);
+
+end

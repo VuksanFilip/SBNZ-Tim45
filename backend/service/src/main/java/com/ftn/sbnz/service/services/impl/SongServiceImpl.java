@@ -55,6 +55,7 @@ public class SongServiceImpl implements SongService {
     public boolean isFavoriteSong(Song song, User user) {
         UserPreference userPreference = userPreferenceService.findByUserId(user.getId());
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
+        favoriteSongs.remove(song);
 
         for (Song favoriteSong : favoriteSongs) {
             if (favoriteSong.getId().equals(song.getId())) {
@@ -121,6 +122,10 @@ public class SongServiceImpl implements SongService {
     public Set<RecommendationDTO> addToFavoriteSongs(Long userId, Long songId) {
         Song song = findById(songId);
         User user = userService.findById(userId);
+        UserPreference userPreference = this.userPreferenceService.findByUserId(user.getId());
+        List<Song> favoriteSongs = userPreference.getFavoriteSongs();
+        favoriteSongs.add(song);
+        userPreferenceService.save(userPreference);
 
         Set<Recommendation> recommendations = new HashSet<>();
 
