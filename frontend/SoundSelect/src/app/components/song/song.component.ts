@@ -57,10 +57,14 @@ export class SongComponent implements OnInit {
   favorite(id: string) {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('id');
-    console.log(token);
+    console.log("token" + token);
+    console.log("user id" + userId);
+    console.log("song id" + id);
     this.songService.favoriteSong(userId!, id, token!).subscribe((response) => {
       if (response.length != 0) {
         alert("You have new song recommendations! Check Recommendations tab.")
+      } else {
+        alert("This song is already in your favorites!");
       }
     })
   }

@@ -44,7 +44,7 @@ public class SongController {
         return new ResponseEntity<>(songService.addRating(ratingDTO), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{userId}/favorite/{songId}")
+    @GetMapping(value = "/{userId}/favorite/{songId}")
     public ResponseEntity<?> addFavoriteSong(@PathVariable("userId") Long userId, @PathVariable("songId") Long songId) {
         return new ResponseEntity<>(songService.addToFavoriteSongs(userId, songId), HttpStatus.OK);
     }
