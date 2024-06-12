@@ -125,6 +125,8 @@ public class SongServiceImpl implements SongService {
         UserPreference userPreference = this.userPreferenceService.findByUserId(user.getId());
         List<Song> favoriteSongs = userPreference.getFavoriteSongs();
         favoriteSongs.add(song);
+        userPreference.setFavoriteSongs(favoriteSongs);
+        System.out.println(userPreference.getFavoriteSongs().size());
         userPreferenceService.save(userPreference);
 
         Set<Recommendation> recommendations = new HashSet<>();

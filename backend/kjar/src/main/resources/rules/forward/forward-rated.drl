@@ -38,6 +38,7 @@ end
 rule "Remove listened songs by genre for rating"
     salience 5
     when
+        String(this=="rated")
         $songsByGenre: FactOne()
         $song: Song()
         exists(User())
@@ -52,6 +53,7 @@ end
 rule "Choose random songs from not listened songs for rating"
     salience 15
     when
+        String(this=="rated")
         $notListenedSongs: FactTwo()
         eval($notListenedSongs.getSongs().size() > 3)
     then
@@ -66,7 +68,7 @@ rule "Choose random songs from not listened songs for rating"
             recommendedSongs.add(s);
         }
         Recommendation recommendation = Recommendation.builder()
-                        .explanation("You added song to favorite songs!")
+                        .explanation("You rated song!")
                         .songs(recommendedSongs)
                         .build();
         recommendations.add(recommendation);
