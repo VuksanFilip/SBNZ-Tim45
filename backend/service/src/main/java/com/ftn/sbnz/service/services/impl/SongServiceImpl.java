@@ -412,6 +412,7 @@ public class SongServiceImpl implements SongService {
         List<RecommendationDTO> recommendationDTOS = new ArrayList<>();
         if (!recommendations.isEmpty()) {
             for (Recommendation r : recommendations) {
+                r.setUser(user);
                 recommendationRepository.save(r);
                 recommendationDTOS.add(RecommendationDTO.toRecommendationDTO(r));
             }
