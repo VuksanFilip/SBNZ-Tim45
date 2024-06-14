@@ -1,0 +1,26 @@
+<div *ngIf="recommendations.length != 0">
+    <ul class="list">
+        <li *ngFor="let recommendation of recommendations" class="list-item">
+            <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title id="title">Recommendation</mat-card-title>
+                  <mat-card-subtitle>{{ recommendation.explanation }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <ng-container *ngFor="let song of recommendation.recommendedSongs">
+                        <p>Song {{ song.name }} by artist {{ song.artist }}</p>
+                    </ng-container>
+                </mat-card-content>
+              </mat-card>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="recommendations.length === 0" id="container">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title id="title">No recommendations yet</mat-card-title>
+        <mat-card-subtitle>Go to Music tab and listen to some songs!</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+</div>

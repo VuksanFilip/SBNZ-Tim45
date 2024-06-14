@@ -1,0 +1,21 @@
+<ul class="list">
+    <li *ngFor="let song of songs" class="list-item">
+        <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title id="title">{{ song.name}}</mat-card-title>
+              <mat-card-subtitle><a (click)="openDialog(song.id)"><u>View facts</u></a></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Artist: <b>{{ song.artist }}</b></p>
+              <p *ngIf="song.album != ''">Album: <b>{{ song.album }}</b></p>
+              <p>Genre: <b>{{ song.genre }}</b></p>
+              <p>Duration: <b>{{ song.length }}</b></p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="listen(song.id)" class="custom-icon-button" style="background-color: #673AB7; color: #ffffff;">Listen <mat-icon>play_circle_outline</mat-icon></button>
+                <button mat-raised-button (click)="rate(song.id)" class="custom-icon-button" style="background-color: #673AB7; color: #ffffff;">Rate <mat-icon>speaker_notes</mat-icon></button>
+                <button mat-raised-button (click)="favorite(song.id)" class="custom-icon-button" style="background-color: #673AB7; color: #ffffff;">Favorite <mat-icon>favorite_border</mat-icon></button>
+            </mat-card-actions>
+          </mat-card>
+    </li>
+</ul>

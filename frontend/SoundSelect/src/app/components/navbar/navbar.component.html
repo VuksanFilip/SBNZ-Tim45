@@ -1,0 +1,22 @@
+<nav class="navbar" style="border-radius: 0;">
+    <div class="navbar-brand">
+      <span class="navbar-title">SoundSelect <mat-icon>music_note</mat-icon></span>
+    </div>
+    <div class="navbar-links" *ngIf="role === ''">
+      <a routerLink="/registration">Registration</a>
+      <a routerLink="/login">Login</a>
+    </div>
+    <div class="navbar-links" *ngIf="role === 'REGULAR_USER'">
+      <a routerLink="/music-user">Music</a>
+      <a routerLink="/recommendations">Recommendations</a>
+      <a routerLink="/favorite-songs">Favorite songs</a>
+      <a routerLink="/mood">Mood</a>
+      <a routerLink="/profile-user">Profile</a>
+      <a (click)="logout()">Logout</a>
+    </div>
+    <div class="navbar-links" *ngIf="role === 'ARTIST'">
+        <a routerLink="/music-artist">Music</a>
+        <a routerLink="/profile-artist">Profile</a>
+        <a (click)="logout()">Logout</a>
+      </div>
+</nav>

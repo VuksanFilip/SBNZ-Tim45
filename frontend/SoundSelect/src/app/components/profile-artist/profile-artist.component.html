@@ -1,0 +1,30 @@
+<mat-card class="profile-container">
+    <mat-card-header>
+      <mat-card-title>{{ username }}'s profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="profile-info">
+        <p><strong>First Name:</strong> {{ firstName }}</p>
+        <p><strong>Last Name:</strong> {{ lastName }}</p>
+        <p><strong>Username:</strong> {{ username }}</p>
+      </div>
+    </mat-card-content>
+</mat-card>
+<mat-card class="profile-container">
+  <mat-card-content>
+    <div *ngIf="genre === ''" class="profile-info">
+      <form>
+        <mat-form-field>
+          <mat-label for="newGenre">Genre</mat-label>
+          <input matInput type="text" id="newGenre" [(ngModel)]="newGenre" name="newGenre" required>
+        </mat-form-field>
+        <button mat-raised-button (click)="addGenre()" style="background-color: #673AB7; color: #ffffff;">Add</button>
+      </form>
+    </div>
+
+    <div *ngIf="genre != ''" class="profile-info">
+      <p><strong>Genre:</strong> {{ genre }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
+  

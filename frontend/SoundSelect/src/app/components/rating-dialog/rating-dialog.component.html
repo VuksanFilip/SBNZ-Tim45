@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Rate Song</h2>
+<mat-dialog-content>
+  <form>
+    <mat-form-field>
+      <mat-label>Rating</mat-label>
+      <mat-select [(ngModel)]="rating.rating" name="mood">
+          <mat-option value="5">5</mat-option>
+          <mat-option value="4">4</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="1">1</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label for="comment">Comment</mat-label>
+        <input matInput type="text" id="comment" [(ngModel)]="rating.comment" name="comment" required>
+    </mat-form-field>
+    <button mat-raised-button (click)="addRating(data.id)" style="background-color: #673AB7; color: #ffffff;">Add rating</button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close style="background-color: #673AB7; color: #ffffff;">Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,35 @@
+template header
+    mood
+    song
+    explanation
+
+package tmpl;
+import com.ftn.sbnz.model.models.Song;
+import com.ftn.sbnz.model.models.UserMood;
+import com.ftn.sbnz.model.models.RegularUser;
+import com.ftn.sbnz.model.models.Recommendation;
+import java.util.HashSet;
+import java.util.Set;
+
+global Set<Recommendation> recommendations;
+
+template "mood-recommendation-rules"
+
+rule "Recommend @{song} for feeling @{mood}"
+when
+    $mood: UserMood(currentMood == "@{mood}")
+    $song: Song(name == "@{song}")
+    $user: RegularUser()
+then
+    System.out.println("@{explanation}");
+
+    Set<Song> songs = new HashSet<>();
+    songs.add($song);
+    Recommendation recommendation = Recommendation.builder()
+                    .user($user)
+                    .explanation("@{explanation}")
+                    .songs(songs)
+                    .build();
+    recommendations.add(recommendation);
+end
+end template
